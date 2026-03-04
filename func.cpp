@@ -153,12 +153,14 @@ void Skaityti(vector<Studentas>& X){
 bool SkaitytiFaila(vector<Studentas>& X, const std::string& path){
     string header;
     std::ifstream in(path);
+
     if(!in){
         std::cerr<<"Nepavyko atidaryti failo: "<<path<<endl;
         return false;
     }
     std::stringstream ss;
     ss<<in.rdbuf();
+    in.close();
     getline(ss, header);
 
     std::stringstream hs(header);
@@ -194,6 +196,7 @@ bool SkaitytiFaila(vector<Studentas>& X, const std::string& path){
         X.push_back(naujas);
     }
     return true;
+    
 
 }
 
