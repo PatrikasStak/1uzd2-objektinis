@@ -37,9 +37,15 @@ Laikai - 10000 - 0.0724s; 100000 - 0.5376s; 1000000 - 2.88213s
 - "1 testavimas" - matuojamas laikas 1 testavimui
 - "testavimai prideti" - abu testavimai yra
 - "pridetas rusiavimo pasirinkimas" - is generuotu failu galima rusiuoti irasus pagal varda, pavarde ir galutinius rezultatus
+
 v0.4 laikai su 5 ND: 1000 - 0.0083      10000 - 0.0418      100000 - 0.2258     1000000 - 2.1877       10000000 - 21.4033   visi 23.867
+
 1k - nuskaitytas(0.0023s) isrikiuotas(0.0031s) isskirstytas(0.0012s) maladiec isvesti(0.0043) vargsai isvesti(0.003s) visi rikiavimai(0.011s)
+
 10k - nuskaitytas(0.0108286s) isrikiuotas(0.027805s) isskirstytas(0.00441412s) maladiec isvesti(0.0212594s) vargsai isvesti(0.0122754s) visi rikiavimai(0.0661631s)
+
 100k - nuskaitytas(0.0739688s) isrikiuotas(0.144601s) isskirstytas(0.0221737s) maladiec isvesti(0.12701s) vargsai isvesti(0.13024s) visi rikiavimai(0.424479s)
+
 1m - nuskaitytas(0.549354s) isrikiuotas(1.31903s) isskirstytas(0.238631s) maladiec isvesti(1.36901s) vargsai isvesti(0.907606s) visi rikiavimai(3.83508s)
+
 10m - nuskaitytas(4.86618s) isrikiuotas(15.3556s) isskirstytas(2.83875s) maladiec isvesti(14.1785s) vargsai isvesti(9.55324s) visi rikiavimai(42.0122s)
