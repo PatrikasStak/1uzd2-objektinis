@@ -10,11 +10,12 @@ using std::vector;
 
 static void SkaiciuotiGalutinius(Studentas& s){
     double sum = 0.0;
-    for(size_t i=0;i<s.nd.size();i++) sum += s.nd[i];
-    double avg = sum / s.nd.size();
-    s.galutinis_vid = avg * 0.4 + s.egz * 0.6;
+    const auto& nd = s.nd();
+    for(size_t i=0;i<nd.size();i++) sum += nd[i];
+    double avg = sum / nd.size();
+    s.setGalutinisVid(avg * 0.4 + s.egz() * 0.6);
 
-    std::vector<int> temp = s.nd;
+    std::vector<int> temp = nd;
     std::sort(temp.begin(), temp.end());
     double med;
     if(temp.size() % 2 == 0){
@@ -22,7 +23,7 @@ static void SkaiciuotiGalutinius(Studentas& s){
     } else {
         med = temp[temp.size()/2];
     }
-    s.galutinis_med = med * 0.4 + s.egz * 0.6;
+    s.setGalutinisMed(med * 0.4 + s.egz() * 0.6);
 }
 
 void Skaityti(vector<Studentas>& X){
@@ -41,9 +42,11 @@ void Skaityti(vector<Studentas>& X){
         Studentas naujas;
         if(line=="1"){
             cout<<"Iveskite "<<s+1<<" studento varda: ";
-            getline(cin, naujas.vardas);
+            getline(cin, line);
+            naujas.setVardas(line);
             cout<<"Iveskite "<<s+1<<" studento pavarde: ";
-            getline(cin, naujas.pavarde);
+            getline(cin, line);
+            naujas.setPavarde(line);
             int j=0;
             while(true){
                 cout<<"Iveskite "<<s+1<<" studento "<<j+1<<" namu darbu pazymi (enter kad baigti): ";
@@ -56,25 +59,29 @@ void Skaityti(vector<Studentas>& X){
                     break;
                 }
                 try{
-                    naujas.nd.push_back(std::stoi(line));
-                    j++;
+                    int pazymys = std::stoi(line);
+                    if(pazymys>=0&&pazymys<=10){
+                        naujas.addNd(pazymys);
+                        j++;
+                        continue;
+                    }
+                    cout<<"Namu darbu pazymis nera 0-10, bandykite dar karta"<<endl;
+                    continue;
                 }catch(const std::invalid_argument){std::cerr<<"Tai nėra skaičius, bandykite dar kartą"<<endl;
                 continue;}
-                if(naujas.nd[j-1]>=0&&naujas.nd[j-1]<=10)continue;
-                else {
-                    cout<<"Namu darbu pazymis nera 0-10, bandykite dar karta"<<endl;
-                    j--;
-                }
-                
             }
             while(true){
                 cout<<"Iveskite "<<s+1<<" studento egzamino pazymi: ";
                 getline(cin, line);
+                int egz;
                 try{
-                    naujas.egz = std::stoi(line);
+                    egz = std::stoi(line);
                 }catch(const std::invalid_argument){std::cerr<<"Tai nėra skaičius, bandykite dar kartą"<<endl;
                 continue;}
-                if(naujas.egz>=0&&naujas.egz<=10)break;
+                if(egz>=0&&egz<=10){
+                    naujas.setEgz(egz);
+                    break;
+                }
                 else {
                     cout<<"Egzamino pazymis nera 0-10, bandykite dar karta"<<endl;
                 }
@@ -83,20 +90,23 @@ void Skaityti(vector<Studentas>& X){
         }
         else if(line=="2"){
             cout<<"Iveskite "<<s+1<<" studento varda: ";
-            getline(cin, naujas.vardas);
+            getline(cin, line);
+            naujas.setVardas(line);
             cout<<"Iveskite "<<s+1<<" studento pavarde: ";
-            getline(cin, naujas.pavarde);
+            getline(cin, line);
+            naujas.setPavarde(line);
             int j = rand() % 10 + 1; // 1-10 namu darbu pazymiu
             for(int k=0; k<j; k++){
-                naujas.nd.push_back(rand() % 10 + 1); // pazymiai 1-10
+                naujas.addNd(rand() % 10 + 1); // pazymiai 1-10
             }
             cout<<"Sugeneruoti "<<s+1<<" studento namu darbu pazymiai:";
+            const auto& nd = naujas.nd();
             for(int k=0;k<j;k++){
-                cout<<" "<<naujas.nd[k];
+                cout<<" "<<nd[k];
             }
             cout<<endl;
-            naujas.egz=rand() % 10 + 1;
-            cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz<<endl;
+            naujas.setEgz(rand() % 10 + 1);
+            cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz()<<endl;
             SkaiciuotiGalutinius(naujas);
         }
         else if(line=="3"){
@@ -110,32 +120,33 @@ void Skaityti(vector<Studentas>& X){
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout<<endl;
             for(int i=0;i<kiek;i++){
-            naujas.nd.clear();
+            naujas.clearNd();
             int lytis = rand() % 2; // 0 - moteris ; 1 - vyras
             if(lytis == 0){
                 int vardu_kiek = static_cast<int>(vardai_mot.size());
                 int pavardziu_kiek = static_cast<int>(pavardes_mot.size());
-                naujas.vardas = vardai_mot[rand() % vardu_kiek];
-                naujas.pavarde = pavardes_mot[rand() % pavardziu_kiek];
+                naujas.setVardas(vardai_mot[rand() % vardu_kiek]);
+                naujas.setPavarde(pavardes_mot[rand() % pavardziu_kiek]);
             }
             else{
                 int vardu_kiek = static_cast<int>(vardai_vyr.size());
                 int pavardziu_kiek = static_cast<int>(pavardes_vyr.size());
-                naujas.vardas = vardai_vyr[rand() % vardu_kiek];
-                naujas.pavarde = pavardes_vyr[rand() % pavardziu_kiek];
+                naujas.setVardas(vardai_vyr[rand() % vardu_kiek]);
+                naujas.setPavarde(pavardes_vyr[rand() % pavardziu_kiek]);
             }
             int j = rand() % 10 + 1; // 1-10 namu darbu pazymiu
             for(int k=0; k<j; k++){
-                naujas.nd.push_back(rand() % 10 + 1); // pazymiai 1-10
+                naujas.addNd(rand() % 10 + 1); // pazymiai 1-10
             }
-            cout<<"Sugeneruotas "<<s+1<<" studento vardas ir pavardė: "<<naujas.vardas<<" "<<naujas.pavarde<<endl;
+            cout<<"Sugeneruotas "<<s+1<<" studento vardas ir pavardė: "<<naujas.vardas()<<" "<<naujas.pavarde()<<endl;
             cout<<"Sugeneruoti "<<s+1<<" studento namu darbu pazymiai:";
+            const auto& nd = naujas.nd();
             for(int k=0;k<j;k++){
-                cout<<" "<<naujas.nd[k];
+                cout<<" "<<nd[k];
             }
             cout<<endl;
-            naujas.egz=rand() % 10 + 1;
-            cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz<<endl;
+            naujas.setEgz(rand() % 10 + 1);
+            cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz()<<endl;
             SkaiciuotiGalutinius(naujas);
             X.push_back(naujas);
             s++;
@@ -190,20 +201,26 @@ void SkaitytiFaila(vector<Studentas>& X){
 
     while(true){
         Studentas naujas;
-        if(!(ss>>naujas.vardas>>naujas.pavarde))break;
-        naujas.nd.clear();
+        string vardas;
+        string pavarde;
+        if(!(ss>>vardas>>pavarde))break;
+        naujas.setVardas(vardas);
+        naujas.setPavarde(pavarde);
+        naujas.clearNd();
         for(int i=0;i<ndCount;i++){
             int nd;
             if(!(ss >> nd)){
                 std::cerr << "Klaida skaitant ND (truksta duomenu)." << endl;
                 return;
             }
-            naujas.nd.push_back(nd);
+            naujas.addNd(nd);
         }
-        if(!(ss >> naujas.egz)){
+        int egz;
+        if(!(ss >> egz)){
             std::cerr << "Klaida skaitant egzamina (truksta duomenu)." << endl;
             return;
         }
+        naujas.setEgz(egz);
         SkaiciuotiGalutinius(naujas);
         X.push_back(naujas);
     }
@@ -248,21 +265,21 @@ void Rezultatas(vector<Studentas>& X){
 
     if(choice=="1"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            if(a.vardas == b.vardas) return a.pavarde > b.pavarde;
-            return a.vardas > b.vardas;
+            if(a.vardas() == b.vardas()) return a.pavarde() > b.pavarde();
+            return a.vardas() > b.vardas();
         });
     } else if(choice=="2"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            if(a.pavarde == b.pavarde) return a.vardas > b.vardas;
-            return a.pavarde > b.pavarde;
+            if(a.pavarde() == b.pavarde()) return a.vardas() > b.vardas();
+            return a.pavarde() > b.pavarde();
         });
     } else if(choice=="3"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            return a.galutinis_vid > b.galutinis_vid;
+            return a.galutinisVid() > b.galutinisVid();
         });
     } else if(choice=="4"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            return a.galutinis_med > b.galutinis_med;
+            return a.galutinisMed() > b.galutinisMed();
         });
     }
 
@@ -276,8 +293,8 @@ void Rezultatas(vector<Studentas>& X){
     size_t w2 = string("Pavarde").size();
 
     for(size_t i=0;i<X.size();++i){
-        w1=std::max(w1, X[i].vardas.size());
-        w2=std::max(w2, X[i].pavarde.size());
+        w1=std::max(w1, X[i].vardas().size());
+        w2=std::max(w2, X[i].pavarde().size());
     }
 
     w1+=2;
@@ -295,12 +312,12 @@ void Rezultatas(vector<Studentas>& X){
 
         if(pasirinkimas=="m"||pasirinkimas=="mediana"){
             for(size_t i=0;i<X.size();i++){
-                os<<left<<setw(w1)<<X[i].vardas<<setw(w2)<<X[i].pavarde<<setw(12)<<std::fixed<<std::setprecision(2)<<X[i].galutinis_med<<endl;
+                os<<left<<setw(w1)<<X[i].vardas()<<setw(w2)<<X[i].pavarde()<<setw(12)<<std::fixed<<std::setprecision(2)<<X[i].galutinisMed()<<endl;
             }
         }
         else{
             for(size_t i=0;i<X.size();i++){
-                os<<left<<setw(w1)<<X[i].vardas<<setw(w2)<<X[i].pavarde<<setw(12)<<std::fixed<<std::setprecision(2)<<X[i].galutinis_vid<<endl;
+                os<<left<<setw(w1)<<X[i].vardas()<<setw(w2)<<X[i].pavarde()<<setw(12)<<std::fixed<<std::setprecision(2)<<X[i].galutinisVid()<<endl;
             }
         }
     };
@@ -349,29 +366,29 @@ void RezultatasFailo(vector<Studentas>& X){
 
     if(choice=="1"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            if(a.vardas == b.vardas) return a.pavarde > b.pavarde;
-            return a.vardas > b.vardas;
+            if(a.vardas() == b.vardas()) return a.pavarde() > b.pavarde();
+            return a.vardas() > b.vardas();
         });
     } else if(choice=="2"){
         std::sort(X.begin(), X.end(), [](const Studentas& a, const Studentas& b){
-            if(a.pavarde == b.pavarde) return a.vardas > b.vardas;
-            return a.pavarde > b.pavarde;
+            if(a.pavarde() == b.pavarde()) return a.vardas() > b.vardas();
+            return a.pavarde() > b.pavarde();
         });
     } else if(choice=="3"){
         std::sort(X.begin(), X.end(), [&](const Studentas& a, const Studentas& b){
-            return a.galutinis_vid > b.galutinis_vid;
+            return a.galutinisVid() > b.galutinisVid();
         });
     } else if(choice=="4"){
         std::sort(X.begin(), X.end(), [&](const Studentas& a, const Studentas& b){
-            return a.galutinis_med > b.galutinis_med;
+            return a.galutinisMed() > b.galutinisMed();
         });
     }
 
     size_t w1 = string("Vardas").size();
     size_t w2 = string("Pavarde").size();
     for(size_t i=0;i<X.size();++i){
-        w1=std::max(w1, X[i].vardas.size());
-        w2=std::max(w2, X[i].pavarde.size());
+        w1=std::max(w1, X[i].vardas().size());
+        w2=std::max(w2, X[i].pavarde().size());
     }
     w1+=2;
     w2+=2;
@@ -386,10 +403,10 @@ void RezultatasFailo(vector<Studentas>& X){
         os << endl;
 
         for(size_t i=0;i<X.size();i++){
-            os<<left<<setw(w1)<<X[i].vardas
-              <<setw(w2)<<X[i].pavarde
-              <<setw(16)<<std::fixed<<std::setprecision(2)<<X[i].galutinis_vid
-              <<setw(16)<<std::fixed<<std::setprecision(2)<<X[i].galutinis_med
+            os<<left<<setw(w1)<<X[i].vardas()
+              <<setw(w2)<<X[i].pavarde()
+              <<setw(16)<<std::fixed<<std::setprecision(2)<<X[i].galutinisVid()
+              <<setw(16)<<std::fixed<<std::setprecision(2)<<X[i].galutinisMed()
               <<endl;
         }
     };
@@ -506,7 +523,7 @@ void sortContainer(std::list<T, Alloc>& c, Comp comp) {
 
 static void moveVargsai(StudentVec& X, StudentVec& vargsai, bool useMed) {
     auto isVargsas = [&](const Studentas& s){
-        double val = useMed ? s.galutinis_med : s.galutinis_vid;
+        double val = useMed ? s.galutinisMed() : s.galutinisVid();
         return val < 5.0;
     };
     auto mid = std::partition(X.begin(), X.end(), isVargsas);
@@ -516,12 +533,12 @@ static void moveVargsai(StudentVec& X, StudentVec& vargsai, bool useMed) {
 
 static void moveVargsai(StudentDeque& X, StudentDeque& vargsai, bool useMed) {
     for (const auto& s : X) {
-        double val = useMed ? s.galutinis_med : s.galutinis_vid;
+        double val = useMed ? s.galutinisMed() : s.galutinisVid();
         if (val < 5.0) vargsai.push_back(s);
     }
     X.erase(std::remove_if(X.begin(), X.end(),
                            [&](const Studentas& s){
-                               double val = useMed ? s.galutinis_med : s.galutinis_vid;
+                               double val = useMed ? s.galutinisMed() : s.galutinisVid();
                                return val < 5.0;
                            }),
             X.end());
@@ -529,7 +546,7 @@ static void moveVargsai(StudentDeque& X, StudentDeque& vargsai, bool useMed) {
 
 static void moveVargsai(StudentList& X, StudentList& vargsai, bool useMed) {
     for (auto it = X.begin(); it != X.end(); ) {
-        double val = useMed ? it->galutinis_med : it->galutinis_vid;
+        double val = useMed ? it->galutinisMed() : it->galutinisVid();
         if (val < 5.0) {
             vargsai.push_back(*it);
             it = X.erase(it);
@@ -575,20 +592,26 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     start = std::chrono::high_resolution_clock::now();
     while(true){
         Studentas naujas;
-        if(!(ss>>naujas.vardas>>naujas.pavarde))break;
-        naujas.nd.clear();
+        string vardas;
+        string pavarde;
+        if(!(ss>>vardas>>pavarde))break;
+        naujas.setVardas(vardas);
+        naujas.setPavarde(pavarde);
+        naujas.clearNd();
         for(int i=0;i<ndCount;i++){
             int nd;
             if(!(ss >> nd)){
                 std::cerr << "Klaida skaitant ND (truksta duomenu)." << endl;
                 return;
             }
-            naujas.nd.push_back(nd);
+            naujas.addNd(nd);
         }
-        if(!(ss >> naujas.egz)){
+        int egz;
+        if(!(ss >> egz)){
             std::cerr << "Klaida skaitant egzamina (truksta duomenu)." << endl;
             return;
         }
+        naujas.setEgz(egz);
         SkaiciuotiGalutinius(naujas);
         X.push_back(naujas);
     }
@@ -603,10 +626,10 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
         else std::cerr<<"Neteisinga ivestis, bandykite dar karta!\n";
     }
     auto startbig = std::chrono::high_resolution_clock::now();
-    auto compVardas = [](const Studentas& a, const Studentas& b){ return a.vardas < b.vardas; };
-    auto compPavarde = [](const Studentas& a, const Studentas& b){ return a.pavarde < b.pavarde; };
-    auto compVid = [](const Studentas& a, const Studentas& b){ return a.galutinis_vid < b.galutinis_vid; };
-    auto compMed = [](const Studentas& a, const Studentas& b){ return a.galutinis_med < b.galutinis_med; };
+    auto compVardas = [](const Studentas& a, const Studentas& b){ return a.vardas() < b.vardas(); };
+    auto compPavarde = [](const Studentas& a, const Studentas& b){ return a.pavarde() < b.pavarde(); };
+    auto compVid = [](const Studentas& a, const Studentas& b){ return a.galutinisVid() < b.galutinisVid(); };
+    auto compMed = [](const Studentas& a, const Studentas& b){ return a.galutinisMed() < b.galutinisMed(); };
 
     auto doSort = [&](auto comp){
         sortContainer(X, comp);
@@ -641,9 +664,9 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
 
     auto writeStud = [](std::ostream& out, const auto& X, string choice){
         for (const auto& s : X){
-            out<<left<<setw(25)<<s.vardas<<setw(25)<<s.pavarde;
-            if(choice=="4")out<<setw(12)<<std::fixed<<std::setprecision(2)<<s.galutinis_med<<endl;
-            else out<<setw(12)<<std::fixed<<std::setprecision(2)<<s.galutinis_vid<<endl;
+            out<<left<<setw(25)<<s.vardas()<<setw(25)<<s.pavarde();
+            if(choice=="4")out<<setw(12)<<std::fixed<<std::setprecision(2)<<s.galutinisMed()<<endl;
+            else out<<setw(12)<<std::fixed<<std::setprecision(2)<<s.galutinisVid()<<endl;
         }
     };
     start = std::chrono::high_resolution_clock::now();
