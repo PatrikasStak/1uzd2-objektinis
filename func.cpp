@@ -8,12 +8,12 @@ using std::left;
 using std::setw;
 using std::vector;
 
-static void SkaiciuotiGalutinius(Studentas& s){
+void Studentas::skaiciuotiGalutinius(){
     double sum = 0.0;
-    const auto& nd = s.nd();
+    const auto& nd = nd_;
     for(size_t i=0;i<nd.size();i++) sum += nd[i];
     double avg = sum / nd.size();
-    s.setGalutinisVid(avg * 0.4 + s.egz() * 0.6);
+    galutinis_vid_ = avg * 0.4 + egz_ * 0.6;
 
     std::vector<int> temp = nd;
     std::sort(temp.begin(), temp.end());
@@ -23,7 +23,7 @@ static void SkaiciuotiGalutinius(Studentas& s){
     } else {
         med = temp[temp.size()/2];
     }
-    s.setGalutinisMed(med * 0.4 + s.egz() * 0.6);
+    galutinis_med_ = med * 0.4 + egz_ * 0.6;
 }
 
 void Skaityti(vector<Studentas>& X){
@@ -86,7 +86,7 @@ void Skaityti(vector<Studentas>& X){
                     cout<<"Egzamino pazymis nera 0-10, bandykite dar karta"<<endl;
                 }
             }
-            SkaiciuotiGalutinius(naujas);
+            naujas.skaiciuotiGalutinius();
         }
         else if(line=="2"){
             cout<<"Iveskite "<<s+1<<" studento varda: ";
@@ -107,7 +107,7 @@ void Skaityti(vector<Studentas>& X){
             cout<<endl;
             naujas.setEgz(rand() % 10 + 1);
             cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz()<<endl;
-            SkaiciuotiGalutinius(naujas);
+            naujas.skaiciuotiGalutinius();
         }
         else if(line=="3"){
             int kiek;
@@ -147,13 +147,13 @@ void Skaityti(vector<Studentas>& X){
             cout<<endl;
             naujas.setEgz(rand() % 10 + 1);
             cout<<"Sugeneruotas "<<s+1<<" studento egzamino pazymys: "<<naujas.egz()<<endl;
-            SkaiciuotiGalutinius(naujas);
+            naujas.skaiciuotiGalutinius();
             X.push_back(naujas);
             s++;
         }
     }
     if(line!="3"){
-        SkaiciuotiGalutinius(naujas);
+        naujas.skaiciuotiGalutinius();
         X.push_back(naujas);
         s++;
     }
@@ -221,7 +221,7 @@ void SkaitytiFaila(vector<Studentas>& X){
             return;
         }
         naujas.setEgz(egz);
-        SkaiciuotiGalutinius(naujas);
+        naujas.skaiciuotiGalutinius();
         X.push_back(naujas);
     }
 auto t2 = std::chrono::high_resolution_clock::now();
@@ -612,7 +612,7 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
             return;
         }
         naujas.setEgz(egz);
-        SkaiciuotiGalutinius(naujas);
+        naujas.skaiciuotiGalutinius();
         X.push_back(naujas);
     }
     end = std::chrono::high_resolution_clock::now();

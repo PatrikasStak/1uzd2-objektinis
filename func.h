@@ -33,6 +33,8 @@ public:
     inline void setGalutinisMed(double galutinis_med) { galutinis_med_ = galutinis_med; }
     inline void clearNd() { nd_.clear(); }
     inline void addNd(int pazymys) { nd_.push_back(pazymys); }
+
+    void skaiciuotiGalutinius();
 };
 
 
