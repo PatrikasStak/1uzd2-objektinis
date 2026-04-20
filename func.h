@@ -3,13 +3,14 @@
 
 #include "lib.h"
 
-struct Studentas {
-    std::string vardas, pavarde;
-    std::vector<int> nd;
-    int egz;
-    double galutinis_vid;
-    double galutinis_med;
-
+class Studentas {
+private:
+    std::string vardas_;
+    std::string pavarde_;
+    std::vector<int> nd_;
+    int egz_;
+    double galutinis_vid_;
+    double galutinis_med_;
 };
 
 
