@@ -579,6 +579,7 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     auto end = std::chrono::high_resolution_clock::now();
     auto sec = std::chrono::duration<double>(end - start).count();
     std::cout <<"\033[32m"<< path<<" failas nuskaitytas per " << sec << " s"<<"\033[0m"<<"\n";
+    auto total=sec;
     getline(ss, header);
 
     std::stringstream hs(header);
@@ -618,6 +619,7 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     end = std::chrono::high_resolution_clock::now();
     sec = std::chrono::duration<double>(end - start).count();
     std::cout <<"\033[32m"<< path<<" duomenys sudeti i konteineri per: " << sec << " s"<<"\033[0m"<<"\n";
+    total+=sec;
     string choice;
     while(true){
         cout<<"Kaip rikiuoti? 1 - pagal varda, 2 - pagal pavarde, 3 - pagal galutini(vidurkio), 4 - pagal galutini(medianos): ";
@@ -643,6 +645,7 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     sec = std::chrono::duration<double>(end - start).count();
     std::cout <<"\033[32m"<< path<<" failas isrikiuotas per: " << sec << " s"<<"\033[0m"<<"\n";
 
+
     start = std::chrono::high_resolution_clock::now();
     moveVargsai(X, vargsai, choice=="4");
     
@@ -651,6 +654,7 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     end = std::chrono::high_resolution_clock::now();
     sec = std::chrono::duration<double>(end - start).count();
     std::cout <<"\033[32m"<< path<<" failas isskirstytas i 2 per " << sec << " s"<<"\033[0m"<<"\n";
+
 
 
     std::ofstream mldc("maladiec.txt");
@@ -689,6 +693,8 @@ template <typename Cont> void GeneruotuRusiavimasImpl(const std::string& path){
     end = std::chrono::high_resolution_clock::now();
     sec = std::chrono::duration<double>(end - startbig).count();
     std::cout << path<<" failo visi rikiavimai atlikti per " << sec << " s\n";
+    total+=sec;
+    std::cout <<"\033[32m"<< path<<" failas uztruko: " << total << " s"<<"\033[0m"<<"\n";
 
 
 }
