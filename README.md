@@ -126,6 +126,7 @@ Matome, kad skirstymo greitis paspartėjo, nors ir labai minimaliai.
 - Atlikta eksperimentinė analizė su kompiliatoriaus optimizavimo flag'ais `-O1`, `-O2` ir `-O3`
 
 **Struct ir Class palyginimas**
+!Viskas atlikta su vector!
 
 | Įrašų skaičius | Struct (s) | Class (s) |
 |---|---:|---:|
