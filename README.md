@@ -119,5 +119,29 @@ Matome, kad skirstymo greitis paspartėjo, nors ir labai minimaliai.
 <img width="658" height="141" alt="image" src="https://github.com/user-attachments/assets/a4a8ddf8-6523-4733-8142-694e024c2a45" />
 <img width="361" height="217" alt="image" src="https://github.com/user-attachments/assets/64be7f4d-a48d-4246-9cc3-1da12e849cf6" />
 
+**v1.1**
 
+- `Studentas` realizacija perkelta iš `struct` į `class`
+- Atlikta `struct` ir `class` versijų palyginamoji analizė
+- Atlikta eksperimentinė analizė su kompiliatoriaus optimizavimo flag'ais `-O1`, `-O2` ir `-O3`
+
+**Struct ir Class palyginimas**
+
+| Įrašų skaičius | Struct (s) | Class (s) |
+|---|---:|---:|
+| 100000 | 0.3591149 | 0.380284 |
+| 1000000 | 3.102802 | 3.04553 |
+
+**Optimizavimo flag'ų analizė**
+
+| Versija | Flag | Laikas (s) | `main` dydis |
+|---|---|---:|---:|
+| Struct | `-O1` | 3.191659 | 345KB |
+| Struct | `-O2` | 3.101894 | 296KB |
+| Struct | `-O3` | 3.085912 | 296KB |
+| Class | `-O1` | 3.29307 | 314KB |
+| Class | `-O2` | 3.30363 | 314KB |
+| Class | `-O3` | 3.2684 | 329KB |
+
+Iš pateiktų rezultatų matyti, kad `Struct` ir `Class` versijų sparta skiriasi nedaug. `Struct` versija kai kuriais atvejais buvo šiek tiek greitesnė, tačiau skirtumas nėra didelis. Taip pat matyti, kad geriausi matuoti rezultatai gauti naudojant `-O3` optimizavimo lygį, o vykdomojo failo dydis priklausomai nuo optimizavimo flag'o ir realizacijos šiek tiek kito.
 
