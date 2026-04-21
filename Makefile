@@ -2,7 +2,7 @@ CXX := g++
 OPT ?= -O2
 CXXFLAGS := $(OPT) -std=c++14 -Wall -Wextra -pedantic
 
-SRC := main.cpp func.cpp
+SRC := main.cpp func.cpp Studentas.cpp
 OBJ := $(SRC:.cpp=.o)
 BIN := main
 
