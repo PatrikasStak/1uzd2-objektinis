@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cmath>
 #include <sstream>
+#include <type_traits>
 #include <utility>
 
 namespace {
@@ -142,9 +143,24 @@ void testGradeCalculation() {
     assert(almostEqual(s.galutinisMed(), 7.4));
 }
 
+void testAbstractBaseClass() {
+    static_assert(std::is_abstract<Zmogus>::value, "Zmogus turi buti abstrakti klase");
+    static_assert(std::is_base_of<Zmogus, Studentas>::value, "Studentas turi paveldeti is Zmogus");
+}
+
+void testPolymorphicUsage() {
+    Studentas s("Ieva", "Ievaite");
+    Zmogus* zmogus = &s;
+
+    assert(zmogus->vardas() == "Ieva");
+    assert(zmogus->pavarde() == "Ievaite");
+    assert(zmogus->tipas() == "Studentas");
+}
+
 }  // namespace
 
 int main() {
+    testAbstractBaseClass();
     testDefaultConstructor();
     testParameterizedConstructor();
     testCopyConstructor();
@@ -154,7 +170,8 @@ int main() {
     testInputOperator();
     testOutputOperator();
     testGradeCalculation();
+    testPolymorphicUsage();
 
-    std::cout << "Visi Studentas testai pavyko.\n";
+    std::cout << "Visi Studentas ir Zmogus testai pavyko.\n";
     return 0;
 }
