@@ -205,20 +205,10 @@ Tikėtinas rezultatas:
 Visi Studentas testai pavyko.
 ```
 
-**Nuotraukos / įrodymai**
+**įrodymas**
 
 ![alt text](image.png)
 
-1. `make test` ir `./studentas_test` paleidimo rezultatą terminale.
-2. Programos veikimo pavyzdį su viena iš įvesčių/išvesčių:
-   rankine įvestimi, automatiniu generavimu arba skaitymu iš failo.
-
-Pavyzdinis šablonas nuotraukoms:
-
-```md
-<img width="800" alt="v1.2 testai" src="CIA_IDEKITE_PIRMOS_NUOTRAUKOS_NUORODA" />
-<img width="800" alt="v1.2 programos veikimas" src="CIA_IDEKITE_ANTROS_NUOTRAUKOS_NUORODA" />
-```
 
 **Išvada**
 
