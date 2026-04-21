@@ -290,7 +290,8 @@ Visi Studentas ir Zmogus testai pavyko.
 
 
 ```md
-![v1.5 testai](![alt text](image-1.png))
+<img width="675" height="87" alt="image" src="https://github.com/user-attachments/assets/f927f2fc-42d7-4b35-a6b5-06b0967702ec" />
+
 ```
 
 **Išvada**
