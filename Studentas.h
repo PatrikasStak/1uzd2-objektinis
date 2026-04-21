@@ -13,13 +13,14 @@ private:
     double galutinis_med_;
 
 public:
-    Studentas()
-        : egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
+    Studentas();
 
-    Studentas(const std::string& vardas, const std::string& pavarde)
-        : vardas_(vardas), pavarde_(pavarde), egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
-
-    ~Studentas() = default;
+    Studentas(const std::string& vardas, const std::string& pavarde);
+    Studentas(const Studentas& other);
+    Studentas& operator=(const Studentas& other);
+    Studentas(Studentas&& other) noexcept;
+    Studentas& operator=(Studentas&& other) noexcept;
+    ~Studentas();
 
     inline const std::string& vardas() const { return vardas_; }
     inline const std::string& pavarde() const { return pavarde_; }
