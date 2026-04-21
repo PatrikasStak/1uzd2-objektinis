@@ -38,6 +38,9 @@ public:
     inline void addNd(int pazymys) { nd_.push_back(pazymys); }
 
     void skaiciuotiGalutinius();
+
+    friend std::istream& operator>>(std::istream& is, Studentas& studentas);
+    friend std::ostream& operator<<(std::ostream& os, const Studentas& studentas);
 };
 
 #endif

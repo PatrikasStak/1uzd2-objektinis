@@ -82,3 +82,50 @@ void Studentas::skaiciuotiGalutinius() {
 
     galutinis_med_ = med * 0.4 + egz_ * 0.6;
 }
+
+std::istream& operator>>(std::istream& is, Studentas& studentas) {
+    std::string line;
+    if (!std::getline(is >> std::ws, line)) {
+        return is;
+    }
+
+    std::stringstream ss(line);
+    std::string vardas;
+    std::string pavarde;
+    if (!(ss >> vardas >> pavarde)) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    std::vector<int> pazymiai;
+    int pazymys;
+    while (ss >> pazymys) {
+        pazymiai.push_back(pazymys);
+    }
+
+    if (pazymiai.size() < 2) {
+        is.setstate(std::ios::failbit);
+        return is;
+    }
+
+    studentas.vardas_ = vardas;
+    studentas.pavarde_ = pavarde;
+    studentas.nd_.assign(pazymiai.begin(), pazymiai.end() - 1);
+    studentas.egz_ = pazymiai.back();
+    studentas.skaiciuotiGalutinius();
+
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Studentas& studentas) {
+    os << studentas.vardas_ << ' ' << studentas.pavarde_ << " | ND:";
+    for (size_t i = 0; i < studentas.nd_.size(); ++i) {
+        os << ' ' << studentas.nd_[i];
+    }
+
+    os << " | Egz: " << studentas.egz_
+       << " | Galutinis (Vid.): " << std::fixed << std::setprecision(2) << studentas.galutinis_vid_
+       << " | Galutinis (Med.): " << std::fixed << std::setprecision(2) << studentas.galutinis_med_;
+
+    return os;
+}
