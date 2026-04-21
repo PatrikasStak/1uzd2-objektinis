@@ -146,3 +146,80 @@ Matome, kad skirstymo greitis paspartėjo, nors ir labai minimaliai.
 
 Iš pateiktų rezultatų matyti, kad `Struct` ir `Class` versijų sparta skiriasi nedaug. `Struct` versija kai kuriais atvejais buvo šiek tiek greitesnė, tačiau skirtumas nėra didelis. Taip pat matyti, kad geriausi matuoti rezultatai gauti naudojant `-O3` optimizavimo lygį, o vykdomojo failo dydis priklausomai nuo optimizavimo flag'o ir realizacijos šiek tiek kito.
 
+**v1.2**
+
+- `Studentas` klasė perkelta į atskirus failus `Studentas.h` ir `Studentas.cpp`
+- Realizuota pilna `Rule of Five`
+- Perdengti įvesties ir išvesties operatoriai `operator>>` ir `operator<<`
+- Parašytas atskiras testų failas `studentas_test.cpp`
+- Testai kompiliuojami ir paleidžiami naudojant `make test` ir `./studentas_test`
+
+**Rule of Five ir operatorių lentelė**
+
+| Metodas | Paskirtis |
+|---|---|
+| `Studentas()` | Sukuria tuščią `Studentas` objektą |
+| `Studentas(const std::string&, const std::string&)` | Sukuria studentą su vardu ir pavarde |
+| `Studentas(const Studentas&)` | Kopijavimo konstruktorius |
+| `Studentas& operator=(const Studentas&)` | Kopijavimo priskyrimo operatorius |
+| `Studentas(Studentas&&) noexcept` | Perkėlimo konstruktorius |
+| `Studentas& operator=(Studentas&&) noexcept` | Perkėlimo priskyrimo operatorius |
+| `~Studentas()` | Destruktorius |
+| `std::istream& operator>>(std::istream&, Studentas&)` | Įveda vieno studento duomenis į objektą |
+| `std::ostream& operator<<(std::ostream&, const Studentas&)` | Išveda vieno studento duomenis į srautą |
+
+**Įvesties ir išvesties paaiškinimas**
+
+- Rankinė įvestis programoje atliekama per meniu, kai vartotojas pats įveda vardą, pavardę, namų darbų pažymius ir egzamino balą.
+- Automatinė įvestis programoje atliekama sugeneruojant pažymius arba sugeneruojant visus studento duomenis atsitiktinai.
+- Įvestis iš failo atliekama nuskaitant `.txt` failą su studentų duomenimis.
+- Išvestis į ekraną atliekama naudojant `std::cout`.
+- Išvestis į failą atliekama naudojant `std::ofstream`.
+- Perdengtas `operator>>` leidžia nuskaityti vieną `Studentas` objektą iš srauto formatu: `vardas pavarde nd1 nd2 ... egz`.
+- Perdengtas `operator<<` leidžia išvesti vieno `Studentas` objekto informaciją į bet kurį išvesties srautą.
+
+**Testų lentelė**
+
+| Testas | Kas tikrinama | Rezultatas |
+|---|---|---|
+| `testDefaultConstructor` | Default konstruktorius | Pavyko |
+| `testParameterizedConstructor` | Konstruktorius su parametrais | Pavyko |
+| `testCopyConstructor` | Kopijavimo konstruktorius | Pavyko |
+| `testCopyAssignment` | Kopijavimo priskyrimo operatorius | Pavyko |
+| `testMoveConstructor` | Move konstruktorius | Pavyko |
+| `testMoveAssignment` | Move priskyrimo operatorius | Pavyko |
+| `testInputOperator` | `operator>>` veikimas | Pavyko |
+| `testOutputOperator` | `operator<<` veikimas | Pavyko |
+| `testGradeCalculation` | Galutinio balo skaičiavimas | Pavyko |
+
+**Kaip paleisti testus**
+
+```bash
+make test
+./studentas_test
+```
+
+Tikėtinas rezultatas:
+
+```text
+Visi Studentas testai pavyko.
+```
+
+**Nuotraukos / įrodymai**
+
+![alt text](image.png)
+
+1. `make test` ir `./studentas_test` paleidimo rezultatą terminale.
+2. Programos veikimo pavyzdį su viena iš įvesčių/išvesčių:
+   rankine įvestimi, automatiniu generavimu arba skaitymu iš failo.
+
+Pavyzdinis šablonas nuotraukoms:
+
+```md
+<img width="800" alt="v1.2 testai" src="CIA_IDEKITE_PIRMOS_NUOTRAUKOS_NUORODA" />
+<img width="800" alt="v1.2 programos veikimas" src="CIA_IDEKITE_ANTROS_NUOTRAUKOS_NUORODA" />
+```
+
+**Išvada**
+
+`v1.2` versijoje `Studentas` klasė buvo praplėsta taip, kad atitiktų `Rule of Five` reikalavimus ir palaikytų darbą su srautais per perdengtus `operator>>` ir `operator<<`. Visi realizuoti metodai buvo patikrinti atskirame testų faile, o testų rezultatai parodė, kad konstruktoriai, kopijavimo ir perkėlimo operacijos bei įvesties ir išvesties operatoriai veikia korektiškai.
