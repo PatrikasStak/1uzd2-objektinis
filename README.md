@@ -213,3 +213,93 @@ Visi Studentas testai pavyko.
 **Išvada**
 
 `v1.2` versijoje `Studentas` klasė buvo praplėsta taip, kad atitiktų `Rule of Five` reikalavimus ir palaikytų darbą su srautais per perdengtus `operator>>` ir `operator<<`. Visi realizuoti metodai buvo patikrinti atskirame testų faile, o testų rezultatai parodė, kad konstruktoriai, kopijavimo ir perkėlimo operacijos bei įvesties ir išvesties operatoriai veikia korektiškai.
+
+**v1.5**
+
+- Sukurta abstrakti bazinė klasė `Zmogus`
+- `Studentas` klasė pakeista į išvestinę klasę iš `Zmogus`
+- Išlaikytas `v1.2` funkcionalumas: `Rule of Five`, `operator>>`, `operator<<` ir esami testai
+- Papildyti testai, kad būtų patikrintas abstraktumas ir paveldėjimas
+
+**Klasių struktūra**
+
+| Klasė | Tipas | Atsakomybė |
+|---|---|---|
+| `Zmogus` | Abstrakti bazinė klasė | Saugo bendrus žmogaus duomenis: `vardas_`, `pavarde_` |
+| `Studentas` | Išvestinė klasė | Saugo studento pažymius, egzamino balą ir galutinius rezultatus |
+
+**Kodėl `Zmogus` yra abstrakti**
+
+- `Zmogus` klasėje realizuotas grynai virtualus metodas `tipas() const = 0;`
+- Dėl to negalima kurti `Zmogus` objektų tiesiogiai
+- Galima kurti tik iš jos išvestinių klasių objektus, pvz. `Studentas`
+
+**Paveldėjimo ir metodų lentelė**
+
+| Elementas | Realizacija |
+|---|---|
+| Bazinė klasė | `class Zmogus` |
+| Abstraktumas | `virtual std::string tipas() const = 0;` |
+| Išvestinė klasė | `class Studentas : public Zmogus` |
+| Bendra žmogaus informacija | `vardas_`, `pavarde_` laikomi `Zmogus` klasėje |
+| Specifinė studento informacija | `nd_`, `egz_`, `galutinis_vid_`, `galutinis_med_` laikomi `Studentas` klasėje |
+| Polimorfizmas | `Studentas` realizuoja `tipas()` ir gali būti naudojamas per `Zmogus*` |
+
+**Testų lentelė**
+
+| Testas | Kas tikrinama | Rezultatas |
+|---|---|---|
+| `testAbstractBaseClass` | `Zmogus` yra abstrakti klasė | Pavyko |
+| `testPolymorphicUsage` | `Studentas` naudojimas per `Zmogus*` | Pavyko |
+| `testDefaultConstructor` | Default konstruktorius | Pavyko |
+| `testParameterizedConstructor` | Konstruktorius su parametrais | Pavyko |
+| `testCopyConstructor` | Kopijavimo konstruktorius | Pavyko |
+| `testCopyAssignment` | Kopijavimo priskyrimo operatorius | Pavyko |
+| `testMoveConstructor` | Move konstruktorius | Pavyko |
+| `testMoveAssignment` | Move priskyrimo operatorius | Pavyko |
+| `testInputOperator` | `operator>>` veikimas | Pavyko |
+| `testOutputOperator` | `operator<<` veikimas | Pavyko |
+| `testGradeCalculation` | Galutinio balo skaičiavimas | Pavyko |
+
+**Kaip paleisti testus**
+
+```bash
+make test
+./studentas_test
+```
+
+Tikėtinas rezultatas:
+
+```text
+Visi Studentas ir Zmogus testai pavyko.
+```
+
+**Kaip demonstruojamas abstraktumas**
+
+- Testuose naudojamas `static_assert(std::is_abstract<Zmogus>::value)`, kuris patvirtina, kad `Zmogus` yra abstrakti klasė.
+- Testuose taip pat naudojamas `static_assert(std::is_base_of<Zmogus, Studentas>::value)`, kuris patvirtina, kad `Studentas` paveldi iš `Zmogus`.
+- Papildomai patikrinama, kad `Studentas` objektas gali būti pasiekiamas per `Zmogus*`.
+
+**Programos logikos suderinamumas su v1.2**
+
+- Programos veikimo logika išliko tokia pati kaip `v1.2` versijoje.
+- Rankinė įvestis, automatinis generavimas, skaitymas iš failo, išvedimas į ekraną ir išvedimas į failą veikia kaip ir anksčiau.
+- `Studentas` klasė išlaikė `Rule of Five` ir srautų operatorių realizaciją, todėl ankstesni testai liko pritaikomi ir po paveldėjimo įvedimo.
+
+**įrodymai**
+
+Į šią vietą verta įkelti bent 2 nuotraukas:
+
+1. `make test` ir `./studentas_test` rezultatą, kur matosi `Visi Studentas ir Zmogus testai pavyko.`
+2. Programos veikimo pavyzdį, parodant, kad `v1.2` logika liko veikianti.
+
+Pavyzdinis šablonas:
+
+```md
+![v1.5 testai](CIA_IDEKITE_PIRMOS_NUOTRAUKOS_NUORODA)
+![v1.5 veikimas](CIA_IDEKITE_ANTROS_NUOTRAUKOS_NUORODA)
+```
+
+**Išvada**
+
+`v1.5` versijoje buvo įvesta paveldėjimo hierarchija, kurioje `Zmogus` yra abstrakti bazinė klasė, o `Studentas` yra iš jos išvesta klasė. Tokiu būdu bendri žmogaus duomenys buvo perkelti į bazinę klasę, o visa studentui specifinė logika liko `Studentas` klasėje. Visi `v1.2` metodai ir testai išliko veikiantys, papildomai buvo pademonstruotas abstraktumas ir polimorfinis naudojimas.
