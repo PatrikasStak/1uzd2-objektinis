@@ -1,14 +1,13 @@
 #include "Studentas.h"
 
 Studentas::Studentas()
-    : egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
+    : Zmogus(), egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
 
 Studentas::Studentas(const std::string& vardas, const std::string& pavarde)
-    : vardas_(vardas), pavarde_(pavarde), egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
+    : Zmogus(vardas, pavarde), egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
 
 Studentas::Studentas(const Studentas& other)
-    : vardas_(other.vardas_),
-      pavarde_(other.pavarde_),
+    : Zmogus(other.vardas_, other.pavarde_),
       nd_(other.nd_),
       egz_(other.egz_),
       galutinis_vid_(other.galutinis_vid_),
@@ -28,8 +27,7 @@ Studentas& Studentas::operator=(const Studentas& other) {
 }
 
 Studentas::Studentas(Studentas&& other) noexcept
-    : vardas_(std::move(other.vardas_)),
-      pavarde_(std::move(other.pavarde_)),
+    : Zmogus(std::move(other.vardas_), std::move(other.pavarde_)),
       nd_(std::move(other.nd_)),
       egz_(other.egz_),
       galutinis_vid_(other.galutinis_vid_),
@@ -58,6 +56,10 @@ Studentas& Studentas::operator=(Studentas&& other) noexcept {
 
 Studentas::~Studentas() {
     nd_.clear();
+}
+
+std::string Studentas::tipas() const {
+    return "Studentas";
 }
 
 void Studentas::skaiciuotiGalutinius() {
