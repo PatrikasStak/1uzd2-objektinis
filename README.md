@@ -286,18 +286,11 @@ Visi Studentas ir Zmogus testai pavyko.
 - Rankinė įvestis, automatinis generavimas, skaitymas iš failo, išvedimas į ekraną ir išvedimas į failą veikia kaip ir anksčiau.
 - `Studentas` klasė išlaikė `Rule of Five` ir srautų operatorių realizaciją, todėl ankstesni testai liko pritaikomi ir po paveldėjimo įvedimo.
 
-**įrodymai**
+**Įrodymas**
 
-Į šią vietą verta įkelti bent 2 nuotraukas:
-
-1. `make test` ir `./studentas_test` rezultatą, kur matosi `Visi Studentas ir Zmogus testai pavyko.`
-2. Programos veikimo pavyzdį, parodant, kad `v1.2` logika liko veikianti.
-
-Pavyzdinis šablonas:
 
 ```md
-![v1.5 testai](CIA_IDEKITE_PIRMOS_NUOTRAUKOS_NUORODA)
-![v1.5 veikimas](CIA_IDEKITE_ANTROS_NUOTRAUKOS_NUORODA)
+![v1.5 testai](![alt text](image-1.png))
 ```
 
 **Išvada**
