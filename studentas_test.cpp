@@ -66,6 +66,7 @@ void testCopyAssignment() {
 
 void testMoveConstructor() {
     Studentas original = makeStudent();
+    Studentas stat=original;
     const std::string vardas = original.vardas();
     const std::string pavarde = original.pavarde();
     const std::vector<int> nd = original.nd();
@@ -80,7 +81,7 @@ void testMoveConstructor() {
     assert(moved.nd() == nd);
     assert(moved.egz() == egz);
     assert(almostEqual(moved.galutinisVid(), galVid));
-    assert(almostEqual(moved.galutinisMed(), galMed));
+    assert(almostEqual(moved.galutinisMed(), galMed)); //add isempty
 }
 
 void testMoveAssignment() {
