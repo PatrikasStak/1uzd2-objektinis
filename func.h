@@ -19,7 +19,14 @@ public:
     Studentas(const std::string& vardas, const std::string& pavarde)
         : vardas_(vardas), pavarde_(pavarde), egz_(0), galutinis_vid_(0.0), galutinis_med_(0.0) {}
 
-    ~Studentas() = default;
+    ~Studentas() {
+        vardas_.clear();
+        pavarde_.clear();
+        nd_.clear();
+        egz_ = 0;
+        galutinis_vid_ = 0.0;
+        galutinis_med_ = 0.0;
+    }
 
     inline const std::string& vardas() const { return vardas_; }
     inline const std::string& pavarde() const { return pavarde_; }
