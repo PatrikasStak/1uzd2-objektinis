@@ -14,7 +14,10 @@ protected:
         : vardas_(vardas), pavarde_(pavarde) {}
 
 public:
-    virtual ~Zmogus() = default;
+    virtual ~Zmogus() {
+        vardas_.clear();
+        pavarde_.clear();
+    }
 
     inline const std::string& vardas() const { return vardas_; }
     inline const std::string& pavarde() const { return pavarde_; }
