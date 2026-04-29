@@ -54,10 +54,6 @@ Studentas& Studentas::operator=(Studentas&& other) noexcept {
     return *this;
 }
 
-Studentas::~Studentas() {
-    nd_.clear();
-}
-
 std::string Studentas::tipas() const {
     return "Studentas";
 }
