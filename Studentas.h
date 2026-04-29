@@ -20,7 +20,14 @@ public:
     Studentas& operator=(const Studentas& other);
     Studentas(Studentas&& other) noexcept;
     Studentas& operator=(Studentas&& other) noexcept;
-    ~Studentas();
+    ~Studentas() {
+        vardas_.clear();
+        pavarde_.clear();
+        nd_.clear();
+        egz_ = 0;
+        galutinis_vid_ = 0.0;
+        galutinis_med_ = 0.0;
+    }
 
     inline const std::string& vardas() const { return vardas_; }
     inline const std::string& pavarde() const { return pavarde_; }

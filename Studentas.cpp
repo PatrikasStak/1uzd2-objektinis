@@ -56,10 +56,6 @@ Studentas& Studentas::operator=(Studentas&& other) noexcept {
     return *this;
 }
 
-Studentas::~Studentas() {
-    nd_.clear();
-}
-
 void Studentas::skaiciuotiGalutinius() {
     double sum = 0.0;
     const auto& nd = nd_;
