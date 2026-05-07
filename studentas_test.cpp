@@ -102,6 +102,10 @@ void testMoveAssignment() {
     assert(moved.egz() == egz);
     assert(almostEqual(moved.galutinisVid(), galVid));
     assert(almostEqual(moved.galutinisMed(), galMed));
+    assert(original.vardas().empty());
+    assert(original.pavarde().empty());
+    assert(original.nd().empty());
+    assert(original.egz() == 0);
 }
 
 void testInputOperator() {
