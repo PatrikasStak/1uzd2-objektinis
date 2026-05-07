@@ -1,11 +1,25 @@
-studentai1000000.txt
-rez.txt
+# Compiled binaries
+main
+a.out
+studentas_test
+
+# Object files
+*.o
+
+# Generated data files
 generuoti1000.txt
 generuoti10000.txt
 generuoti100000.txt
 generuoti1000000.txt
 generuoti10000000.txt
+studentai1000.txt
+studentai10000.txt
+studentai100000.txt
+studentai1000000.txt
+rez.txt
 maladiec.txt
 vargsai.txt
-main
-a.out
+kursiokai.txt
+
+# macOS
+.DS_Store

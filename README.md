@@ -1,17 +1,44 @@
-------------
-Diegimo ir paleidimo instrukcija (Unix / Makefile)
+# Studentų pažymių skaičiavimo sistema
+
+## Diegimo ir paleidimo instrukcija (Unix / Makefile)
+
 1. Sukompiliuoti programą:
-```
+```bash
 make
 ```
 2. Paleisti programą:
-```
+```bash
 ./main
 ```
-3. Išvalyti kompiliacijos failus:
+3. Paleisti testus:
+```bash
+make test
+./studentas_test
 ```
+4. Sugeneruoti dokumentaciją:
+```bash
+make docs
+```
+5. Išvalyti kompiliacijos failus:
+```bash
 make clean
 ```
+
+## Naudojimosi instrukcija
+
+Programa siūlo interaktyvų meniu:
+- **1** — Įvesti studentus rankiniu būdu
+- **2** — Skaityti studentus iš failo
+- **3** — Generuoti studentų failus (1k–10m įrašų)
+- **4** — Rikiuoti ir skirstyti nuskaitytus failus (vector / list / deque)
+- **5** — Išvesti rezultatus
+- **0** — Baigti
+
+Galutinis balas skaičiuojamas dviem būdais:
+- Vidurkiu: `galutinis = ND_vidurkis × 0.4 + egzaminas × 0.6`
+- Mediana: `galutinis = ND_mediana × 0.4 + egzaminas × 0.6`
+
+---
 
 RELEASES:
 
@@ -295,3 +322,60 @@ Visi Studentas ir Zmogus testai pavyko.
 **Išvada**
 
 `v1.5` versijoje buvo įvesta paveldėjimo hierarchija, kurioje `Zmogus` yra abstrakti bazinė klasė, o `Studentas` yra iš jos išvesta klasė. Tokiu būdu bendri žmogaus duomenys buvo perkelti į bazinę klasę, o visa studentui specifinė logika liko `Studentas` klasėje. Visi `v1.2` metodai ir testai išliko veikiantys, papildomai buvo pademonstruotas abstraktumas ir polimorfinis naudojimas.
+
+---
+
+**v2.0**
+
+- Testai perkelti į [Catch2](https://github.com/catchorg/Catch2) (v2.13.10) unit testų framework'ą
+- Visos klasės aprašytos Doxygen komentarais
+- Sugeneruota HTML ir LaTeX/PDF dokumentacija (katalogas `docs/`)
+- Atnaujintas `Makefile`: pridėtas `make docs` taikinys
+- Atnaujintas `.gitignore`: pašalinti visi sugeneruoti ir binariniai failai
+
+**Catch2 testų lentelė (v2.0)**
+
+| Testas | Kas tikrinama | Kategorija |
+|---|---|---|
+| Numatytasis konstruktorius | Visi laukai tuščia/nuliniai | `rule_of_five` |
+| Konstruktorius su parametrais | Vardas ir pavardė priskirti | `rule_of_five` |
+| Kopijavimo konstruktorius | Visi laukai nukopijuoti | `rule_of_five` |
+| Kopijavimo priskyrimo operatorius | Visi laukai nukopijuoti | `rule_of_five` |
+| Perkėlimo konstruktorius | Duomenys perkelti | `rule_of_five` |
+| Perkėlimo priskyrimo operatorius | Duomenys perkelti, šaltinis tuščias | `rule_of_five` |
+| `operator>>` | Skaito vardą, pavardę, ND, egz | `operators` |
+| `operator<<` | Išveda teisingą formatą | `operators` |
+| Galutinio balo skaičiavimas | Vidurkis ir mediana teisingi | `grades` |
+| Zmogus abstrakti klasė | `static_assert` patikrinimai | `inheritance` |
+| Polimorfinis naudojimas | Prieiga per `Zmogus*` | `inheritance` |
+
+**Kaip paleisti testus**
+
+```bash
+make test
+./studentas_test
+```
+
+Tikėtinas rezultatas:
+
+```text
+Passed all 11 test cases with 56 assertions.
+```
+
+**Dokumentacija**
+
+Dokumentacija sugeneruota naudojant Doxygen 1.17.0. Katalogas `docs/` turi:
+- `docs/html/` — naršyklėje atidaromas `index.html`
+- `docs/latex/` — LaTeX šaltinis ir sukompiliuotas `refman.pdf`
+
+```bash
+# Atidarti HTML dokumentaciją
+open docs/html/index.html
+
+# Perkompiliuoti PDF (reikalingas TeX)
+cd docs/latex && make
+```
+
+**Išvada**
+
+`v2.0` versijoje testai perkelti į Catch2 framework'ą, kuris suteikia aiškesnę testų struktūrą su `TEST_CASE` ir `REQUIRE` makro komandomis. Sugeneruota pilna Doxygen dokumentacija HTML ir LaTeX formatais. Repozitorija sutvarkyta: `.gitignore` atnaujintas, pašalinti visi nereikalingi failai.

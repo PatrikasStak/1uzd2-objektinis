@@ -1,0 +1,257 @@
+\doxysection{func.\+h File Reference}
+\hypertarget{func_8h}{}\label{func_8h}\index{func.h@{func.h}}
+
+
+Pagalbinės funkcijos studentų duomenų valdymui.  
+
+
+{\ttfamily \+\#include "{}Studentas.\+h"{}}\newline
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \doxymbox{\hyperlink{func_8h_ad869c68a7b2c0d0206c6ce80fa2c15d8}{Student\+Vec}} = std::\+vector$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$
+\begin{DoxyCompactList}\small\item\em Studentų vektorius. \end{DoxyCompactList}\item 
+using \doxymbox{\hyperlink{func_8h_a10ba95eadaa51ba1f7a2c9ddebff0971}{Student\+List}} = std::\+list$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$
+\begin{DoxyCompactList}\small\item\em Studentų sąrašas. \end{DoxyCompactList}\item 
+using \doxymbox{\hyperlink{func_8h_a9f81074915414e1f33a75746a908a47a}{Student\+Deque}} = std::\+deque$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$
+\begin{DoxyCompactList}\small\item\em Studentų dekas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{func_8h_a7a02d774a6a444f8a5e234d995075a59}{Skaityti}} (std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\begin{DoxyCompactList}\small\item\em Interaktyviai skaito studentų duomenis iš konsolės. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a7cb49b9468de1b35d819410a92a7c8c4}{Skaityti\+Faila}} (std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\begin{DoxyCompactList}\small\item\em Skaito studentų duomenis iš failo. \end{DoxyCompactList}\item 
+double \doxymbox{\hyperlink{func_8h_abbe79b9b940ff4c1305f3ec56683e503}{Vidurkis}} (const std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X, int x)
+\begin{DoxyCompactList}\small\item\em Skaičiuoja vidurkį iš vektoriau. \end{DoxyCompactList}\item 
+double \doxymbox{\hyperlink{func_8h_ac6ca24c19008bd9880a17a9008181bd8}{Mediana}} (const std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X, int x)
+\begin{DoxyCompactList}\small\item\em Skaičiuoja medianą iš vektoriaus. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a087d2678d8651111f1ee2fad31f6567b}{Rezultatas}} (std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\begin{DoxyCompactList}\small\item\em Rikiuoja ir išveda rezultatus į konsolę arba failą. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a23e727f6856a98fc07e6ab8d3235ee20}{Rezultatas\+Failo}} (std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\begin{DoxyCompactList}\small\item\em Rikiuoja ir išveda rezultatus (abi galutinių balų versijas). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a0bb1a52b759e219647f4a0e35c80e805}{Failu\+Generavimas}} ()
+\begin{DoxyCompactList}\small\item\em Generuoja studentų duomenų failus (1k, 10k, 100k, 1m, 10m). \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a40b7ebdbf51d50cf667ffd4d4a87aaf6}{Generuotu\+Rusiavimas\+Vec}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant vektorių. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a9412417c1f3f8e496908b58e86223c68}{Generuotu\+Rusiavimas\+List}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant sąrašą. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a5733e1d54583e68a65a2ae918a418a1e}{Generuotu\+Rusiavimas\+Deque}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant deką. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8h_a0892fce17011ab976d9f2bf0f911ba61}{Trinti\+Faila}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Ištrina nurodytą failą. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Pagalbinės funkcijos studentų duomenų valdymui. 
+
+
+
+\label{func_8h_doc-typedef-members}
+\Hypertarget{func_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{func_8h_a9f81074915414e1f33a75746a908a47a}\index{func.h@{func.h}!StudentDeque@{StudentDeque}}
+\index{StudentDeque@{StudentDeque}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{StudentDeque}{StudentDeque}}
+{\footnotesize\ttfamily \label{func_8h_a9f81074915414e1f33a75746a908a47a} 
+using \doxymbox{\hyperlink{func_8h_a9f81074915414e1f33a75746a908a47a}{Student\+Deque}} = std::\+deque$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$}
+
+
+
+Studentų dekas. 
+
+\Hypertarget{func_8h_a10ba95eadaa51ba1f7a2c9ddebff0971}\index{func.h@{func.h}!StudentList@{StudentList}}
+\index{StudentList@{StudentList}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{StudentList}{StudentList}}
+{\footnotesize\ttfamily \label{func_8h_a10ba95eadaa51ba1f7a2c9ddebff0971} 
+using \doxymbox{\hyperlink{func_8h_a10ba95eadaa51ba1f7a2c9ddebff0971}{Student\+List}} = std::\+list$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$}
+
+
+
+Studentų sąrašas. 
+
+\Hypertarget{func_8h_ad869c68a7b2c0d0206c6ce80fa2c15d8}\index{func.h@{func.h}!StudentVec@{StudentVec}}
+\index{StudentVec@{StudentVec}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{StudentVec}{StudentVec}}
+{\footnotesize\ttfamily \label{func_8h_ad869c68a7b2c0d0206c6ce80fa2c15d8} 
+using \doxymbox{\hyperlink{func_8h_ad869c68a7b2c0d0206c6ce80fa2c15d8}{Student\+Vec}} = std::\+vector$<$\doxymbox{\hyperlink{class_studentas}{Studentas}}$>$}
+
+
+
+Studentų vektorius. 
+
+
+
+\label{func_8h_doc-func-members}
+\Hypertarget{func_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{func_8h_a0bb1a52b759e219647f4a0e35c80e805}\index{func.h@{func.h}!FailuGeneravimas@{FailuGeneravimas}}
+\index{FailuGeneravimas@{FailuGeneravimas}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{FailuGeneravimas()}{FailuGeneravimas()}}
+{\footnotesize\ttfamily \label{func_8h_a0bb1a52b759e219647f4a0e35c80e805} 
+void Failu\+Generavimas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Generuoja studentų duomenų failus (1k, 10k, 100k, 1m, 10m). 
+
+Kiekvienam failui matuoja ir išveda generavimo laiką. \Hypertarget{func_8h_a5733e1d54583e68a65a2ae918a418a1e}\index{func.h@{func.h}!GeneruotuRusiavimasDeque@{GeneruotuRusiavimasDeque}}
+\index{GeneruotuRusiavimasDeque@{GeneruotuRusiavimasDeque}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasDeque()}{GeneruotuRusiavimasDeque()}}
+{\footnotesize\ttfamily \label{func_8h_a5733e1d54583e68a65a2ae918a418a1e} 
+void Generuotu\+Rusiavimas\+Deque (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant deką. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a9412417c1f3f8e496908b58e86223c68}\index{func.h@{func.h}!GeneruotuRusiavimasList@{GeneruotuRusiavimasList}}
+\index{GeneruotuRusiavimasList@{GeneruotuRusiavimasList}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasList()}{GeneruotuRusiavimasList()}}
+{\footnotesize\ttfamily \label{func_8h_a9412417c1f3f8e496908b58e86223c68} 
+void Generuotu\+Rusiavimas\+List (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant sąrašą. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a40b7ebdbf51d50cf667ffd4d4a87aaf6}\index{func.h@{func.h}!GeneruotuRusiavimasVec@{GeneruotuRusiavimasVec}}
+\index{GeneruotuRusiavimasVec@{GeneruotuRusiavimasVec}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasVec()}{GeneruotuRusiavimasVec()}}
+{\footnotesize\ttfamily \label{func_8h_a40b7ebdbf51d50cf667ffd4d4a87aaf6} 
+void Generuotu\+Rusiavimas\+Vec (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant vektorių. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_ac6ca24c19008bd9880a17a9008181bd8}\index{func.h@{func.h}!Mediana@{Mediana}}
+\index{Mediana@{Mediana}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{Mediana()}{Mediana()}}
+{\footnotesize\ttfamily \label{func_8h_ac6ca24c19008bd9880a17a9008181bd8} 
+double Mediana (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{, }\item[{int}]{x}{}\end{DoxyParamCaption})}
+
+
+
+Skaičiuoja medianą iš vektoriaus. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Studentų vektorius \\
+\hline
+{\em x} & Indeksas (nenaudojamas šiuo metu) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Medianos reikšmė 
+\end{DoxyReturn}
+\Hypertarget{func_8h_a087d2678d8651111f1ee2fad31f6567b}\index{func.h@{func.h}!Rezultatas@{Rezultatas}}
+\index{Rezultatas@{Rezultatas}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{Rezultatas()}{Rezultatas()}}
+{\footnotesize\ttfamily \label{func_8h_a087d2678d8651111f1ee2fad31f6567b} 
+void Rezultatas (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+
+
+Rikiuoja ir išveda rezultatus į konsolę arba failą. 
+
+Leidžia pasirinkti rikiavimo kriterijų ir išvesties tikslą. 
+\begin{DoxyParams}{Parameters}
+{\em X} & Studentų vektorius \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a23e727f6856a98fc07e6ab8d3235ee20}\index{func.h@{func.h}!RezultatasFailo@{RezultatasFailo}}
+\index{RezultatasFailo@{RezultatasFailo}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{RezultatasFailo()}{RezultatasFailo()}}
+{\footnotesize\ttfamily \label{func_8h_a23e727f6856a98fc07e6ab8d3235ee20} 
+void Rezultatas\+Failo (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+
+
+Rikiuoja ir išveda rezultatus (abi galutinių balų versijas). 
+
+Išveda ir vidurkio, ir medianos galutinius balus. 
+\begin{DoxyParams}{Parameters}
+{\em X} & Studentų vektorius \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a7a02d774a6a444f8a5e234d995075a59}\index{func.h@{func.h}!Skaityti@{Skaityti}}
+\index{Skaityti@{Skaityti}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{Skaityti()}{Skaityti()}}
+{\footnotesize\ttfamily \label{func_8h_a7a02d774a6a444f8a5e234d995075a59} 
+void Skaityti (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+
+
+Interaktyviai skaito studentų duomenis iš konsolės. 
+
+Siūlo tris įvesties būdus:\+ rankinį, atsitiktinių pažymių arba visiškai atsitiktinių duomenų generavimą. 
+\begin{DoxyParams}{Parameters}
+{\em X} & Vektorius, į kurį pridedami studentai \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a7cb49b9468de1b35d819410a92a7c8c4}\index{func.h@{func.h}!SkaitytiFaila@{SkaitytiFaila}}
+\index{SkaitytiFaila@{SkaitytiFaila}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{SkaitytiFaila()}{SkaitytiFaila()}}
+{\footnotesize\ttfamily \label{func_8h_a7cb49b9468de1b35d819410a92a7c8c4} 
+void Skaityti\+Faila (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+
+
+Skaito studentų duomenis iš failo. 
+
+Nuskaito antraštę, nustato ND stulpelių skaičių ir nuskaito studentų įrašus. Matuoja ir išveda nuskaitymo laiką. 
+\begin{DoxyParams}{Parameters}
+{\em X} & Vektorius, į kurį pridedami studentai \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_a0892fce17011ab976d9f2bf0f911ba61}\index{func.h@{func.h}!TrintiFaila@{TrintiFaila}}
+\index{TrintiFaila@{TrintiFaila}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{TrintiFaila()}{TrintiFaila()}}
+{\footnotesize\ttfamily \label{func_8h_a0892fce17011ab976d9f2bf0f911ba61} 
+void Trinti\+Faila (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Ištrina nurodytą failą. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8h_abbe79b9b940ff4c1305f3ec56683e503}\index{func.h@{func.h}!Vidurkis@{Vidurkis}}
+\index{Vidurkis@{Vidurkis}!func.h@{func.h}}
+\doxysubsubsection{\texorpdfstring{Vidurkis()}{Vidurkis()}}
+{\footnotesize\ttfamily \label{func_8h_abbe79b9b940ff4c1305f3ec56683e503} 
+double Vidurkis (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{, }\item[{int}]{x}{}\end{DoxyParamCaption})}
+
+
+
+Skaičiuoja vidurkį iš vektoriau. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X} & Studentų vektorius \\
+\hline
+{\em x} & Indeksas (nenaudojamas šiuo metu) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vidurkio reikšmė 
+\end{DoxyReturn}

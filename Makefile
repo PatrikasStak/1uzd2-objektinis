@@ -10,8 +10,11 @@ TEST_BIN := studentas_test
 all: $(BIN)
 test: $(TEST_BIN)
 
-$(TEST_BIN): studentas_test.cpp Studentas.cpp
-	$(CXX) $(CXXFLAGS) -o $@ studentas_test.cpp Studentas.cpp
+$(TEST_BIN): studentas_test.cpp Studentas.cpp catch.hpp
+	$(CXX) $(OPT) -std=c++14 -o $@ studentas_test.cpp Studentas.cpp
+
+docs:
+	doxygen Doxyfile
 
 o1:
 	$(MAKE) clean
@@ -34,4 +37,4 @@ $(BIN): $(OBJ)
 clean:
 	rm -f $(OBJ) $(BIN) $(TEST_BIN)
 
-.PHONY: all clean o1 o2 o3 test
+.PHONY: all clean o1 o2 o3 test docs

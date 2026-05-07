@@ -1,6 +1,7 @@
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 #include "Studentas.h"
 
-#include <cassert>
 #include <cmath>
 #include <sstream>
 #include <type_traits>
@@ -22,120 +23,135 @@ Studentas makeStudent() {
     return s;
 }
 
-void testDefaultConstructor() {
+}  // namespace
+
+// ---------------------------------------------------------------------------
+// Rule of Five
+// ---------------------------------------------------------------------------
+
+TEST_CASE("Numatytasis konstruktorius", "[rule_of_five]") {
     Studentas s;
-    assert(s.vardas().empty());
-    assert(s.pavarde().empty());
-    assert(s.nd().empty());
-    assert(s.egz() == 0);
-    assert(almostEqual(s.galutinisVid(), 0.0));
-    assert(almostEqual(s.galutinisMed(), 0.0));
+    REQUIRE(s.vardas().empty());
+    REQUIRE(s.pavarde().empty());
+    REQUIRE(s.nd().empty());
+    REQUIRE(s.egz() == 0);
+    REQUIRE(almostEqual(s.galutinisVid(), 0.0));
+    REQUIRE(almostEqual(s.galutinisMed(), 0.0));
 }
 
-void testParameterizedConstructor() {
+TEST_CASE("Konstruktorius su parametrais", "[rule_of_five]") {
     Studentas s("Petras", "Petraitis");
-    assert(s.vardas() == "Petras");
-    assert(s.pavarde() == "Petraitis");
-    assert(s.nd().empty());
-    assert(s.egz() == 0);
+    REQUIRE(s.vardas() == "Petras");
+    REQUIRE(s.pavarde() == "Petraitis");
+    REQUIRE(s.nd().empty());
+    REQUIRE(s.egz() == 0);
 }
 
-void testCopyConstructor() {
+TEST_CASE("Kopijavimo konstruktorius", "[rule_of_five]") {
     Studentas original = makeStudent();
     Studentas copy(original);
 
-    assert(copy.vardas() == original.vardas());
-    assert(copy.pavarde() == original.pavarde());
-    assert(copy.nd() == original.nd());
-    assert(copy.egz() == original.egz());
-    assert(almostEqual(copy.galutinisVid(), original.galutinisVid()));
-    assert(almostEqual(copy.galutinisMed(), original.galutinisMed()));
+    REQUIRE(copy.vardas() == original.vardas());
+    REQUIRE(copy.pavarde() == original.pavarde());
+    REQUIRE(copy.nd() == original.nd());
+    REQUIRE(copy.egz() == original.egz());
+    REQUIRE(almostEqual(copy.galutinisVid(), original.galutinisVid()));
+    REQUIRE(almostEqual(copy.galutinisMed(), original.galutinisMed()));
 }
 
-void testCopyAssignment() {
+TEST_CASE("Kopijavimo priskyrimo operatorius", "[rule_of_five]") {
     Studentas original = makeStudent();
     Studentas copy;
     copy = original;
 
-    assert(copy.vardas() == original.vardas());
-    assert(copy.pavarde() == original.pavarde());
-    assert(copy.nd() == original.nd());
-    assert(copy.egz() == original.egz());
-    assert(almostEqual(copy.galutinisVid(), original.galutinisVid()));
-    assert(almostEqual(copy.galutinisMed(), original.galutinisMed()));
+    REQUIRE(copy.vardas() == original.vardas());
+    REQUIRE(copy.pavarde() == original.pavarde());
+    REQUIRE(copy.nd() == original.nd());
+    REQUIRE(copy.egz() == original.egz());
+    REQUIRE(almostEqual(copy.galutinisVid(), original.galutinisVid()));
+    REQUIRE(almostEqual(copy.galutinisMed(), original.galutinisMed()));
 }
 
-void testMoveConstructor() {
+TEST_CASE("Perkėlimo konstruktorius", "[rule_of_five]") {
     Studentas original = makeStudent();
-    const std::string vardas = original.vardas();
+    const std::string vardas  = original.vardas();
     const std::string pavarde = original.pavarde();
     const std::vector<int> nd = original.nd();
-    const int egz = original.egz();
-    const double galVid = original.galutinisVid();
-    const double galMed = original.galutinisMed();
+    const int egz             = original.egz();
+    const double galVid       = original.galutinisVid();
+    const double galMed       = original.galutinisMed();
 
     Studentas moved(std::move(original));
 
-    assert(moved.vardas() == vardas);
-    assert(moved.pavarde() == pavarde);
-    assert(moved.nd() == nd);
-    assert(moved.egz() == egz);
-    assert(almostEqual(moved.galutinisVid(), galVid));
-    assert(almostEqual(moved.galutinisMed(), galMed));
+    REQUIRE(moved.vardas()  == vardas);
+    REQUIRE(moved.pavarde() == pavarde);
+    REQUIRE(moved.nd()      == nd);
+    REQUIRE(moved.egz()     == egz);
+    REQUIRE(almostEqual(moved.galutinisVid(), galVid));
+    REQUIRE(almostEqual(moved.galutinisMed(), galMed));
 }
 
-void testMoveAssignment() {
+TEST_CASE("Perkėlimo priskyrimo operatorius", "[rule_of_five]") {
     Studentas original = makeStudent();
-    const std::string vardas = original.vardas();
+    const std::string vardas  = original.vardas();
     const std::string pavarde = original.pavarde();
     const std::vector<int> nd = original.nd();
-    const int egz = original.egz();
-    const double galVid = original.galutinisVid();
-    const double galMed = original.galutinisMed();
+    const int egz             = original.egz();
+    const double galVid       = original.galutinisVid();
+    const double galMed       = original.galutinisMed();
 
     Studentas moved;
     moved = std::move(original);
 
-    assert(moved.vardas() == vardas);
-    assert(moved.pavarde() == pavarde);
-    assert(moved.nd() == nd);
-    assert(moved.egz() == egz);
-    assert(almostEqual(moved.galutinisVid(), galVid));
-    assert(almostEqual(moved.galutinisMed(), galMed));
-    assert(original.vardas().empty());
-    assert(original.pavarde().empty());
-    assert(original.nd().empty());
-    assert(original.egz() == 0);
+    REQUIRE(moved.vardas()  == vardas);
+    REQUIRE(moved.pavarde() == pavarde);
+    REQUIRE(moved.nd()      == nd);
+    REQUIRE(moved.egz()     == egz);
+    REQUIRE(almostEqual(moved.galutinisVid(), galVid));
+    REQUIRE(almostEqual(moved.galutinisMed(), galMed));
+
+    REQUIRE(original.vardas().empty());
+    REQUIRE(original.pavarde().empty());
+    REQUIRE(original.nd().empty());
+    REQUIRE(original.egz() == 0);
 }
 
-void testInputOperator() {
+// ---------------------------------------------------------------------------
+// Operators
+// ---------------------------------------------------------------------------
+
+TEST_CASE("operator>> skaito studento duomenis", "[operators]") {
     std::stringstream input("Ona Onute 7 8 9 10\n");
     Studentas s;
     input >> s;
 
-    assert(input.good() || input.eof());
-    assert(s.vardas() == "Ona");
-    assert(s.pavarde() == "Onute");
-    assert((s.nd() == std::vector<int>{7, 8, 9}));
-    assert(s.egz() == 10);
-    assert(almostEqual(s.galutinisVid(), 9.2));
-    assert(almostEqual(s.galutinisMed(), 9.2));
+    REQUIRE((input.good() || input.eof()));
+    REQUIRE(s.vardas()  == "Ona");
+    REQUIRE(s.pavarde() == "Onute");
+    REQUIRE(s.nd() == std::vector<int>{7, 8, 9});
+    REQUIRE(s.egz() == 10);
+    REQUIRE(almostEqual(s.galutinisVid(), 9.2));
+    REQUIRE(almostEqual(s.galutinisMed(), 9.2));
 }
 
-void testOutputOperator() {
+TEST_CASE("operator<< išveda studento duomenis", "[operators]") {
     Studentas s = makeStudent();
     std::stringstream output;
     output << s;
     const std::string text = output.str();
 
-    assert(text.find("Jonas Jonaitis") != std::string::npos);
-    assert(text.find("ND: 8 9 10") != std::string::npos);
-    assert(text.find("Egz: 9") != std::string::npos);
-    assert(text.find("Galutinis (Vid.): 9.00") != std::string::npos);
-    assert(text.find("Galutinis (Med.): 9.00") != std::string::npos);
+    REQUIRE(text.find("Jonas Jonaitis")        != std::string::npos);
+    REQUIRE(text.find("ND: 8 9 10")            != std::string::npos);
+    REQUIRE(text.find("Egz: 9")                != std::string::npos);
+    REQUIRE(text.find("Galutinis (Vid.): 9.00") != std::string::npos);
+    REQUIRE(text.find("Galutinis (Med.): 9.00") != std::string::npos);
 }
 
-void testGradeCalculation() {
+// ---------------------------------------------------------------------------
+// Grade calculation
+// ---------------------------------------------------------------------------
+
+TEST_CASE("Galutinio balo skaičiavimas", "[grades]") {
     Studentas s("Aiste", "Aistiene");
     s.addNd(6);
     s.addNd(10);
@@ -143,39 +159,27 @@ void testGradeCalculation() {
     s.setEgz(7);
     s.skaiciuotiGalutinius();
 
-    assert(almostEqual(s.galutinisVid(), 7.4));
-    assert(almostEqual(s.galutinisMed(), 7.4));
+    REQUIRE(almostEqual(s.galutinisVid(), 7.4));
+    REQUIRE(almostEqual(s.galutinisMed(), 7.4));
 }
 
-void testAbstractBaseClass() {
-    static_assert(std::is_abstract<Zmogus>::value, "Zmogus turi buti abstrakti klase");
-    static_assert(std::is_base_of<Zmogus, Studentas>::value, "Studentas turi paveldeti is Zmogus");
+// ---------------------------------------------------------------------------
+// Inheritance & polymorphism
+// ---------------------------------------------------------------------------
+
+TEST_CASE("Zmogus yra abstrakti klasė", "[inheritance]") {
+    static_assert(std::is_abstract<Zmogus>::value,
+                  "Zmogus turi buti abstrakti klase");
+    static_assert(std::is_base_of<Zmogus, Studentas>::value,
+                  "Studentas turi paveldeti is Zmogus");
+    SUCCEED("Kompiliaciniai patikrinimai praėjo");
 }
 
-void testPolymorphicUsage() {
+TEST_CASE("Polimorfinis naudojimas per Zmogus*", "[inheritance]") {
     Studentas s("Ieva", "Ievaite");
     Zmogus* zmogus = &s;
 
-    assert(zmogus->vardas() == "Ieva");
-    assert(zmogus->pavarde() == "Ievaite");
-    assert(zmogus->tipas() == "Studentas");
-}
-
-}  // namespace
-
-int main() {
-    testAbstractBaseClass();
-    testDefaultConstructor();
-    testParameterizedConstructor();
-    testCopyConstructor();
-    testCopyAssignment();
-    testMoveConstructor();
-    testMoveAssignment();
-    testInputOperator();
-    testOutputOperator();
-    testGradeCalculation();
-    testPolymorphicUsage();
-
-    std::cout << "Visi Studentas ir Zmogus testai pavyko.\n";
-    return 0;
+    REQUIRE(zmogus->vardas()  == "Ieva");
+    REQUIRE(zmogus->pavarde() == "Ievaite");
+    REQUIRE(zmogus->tipas()   == "Studentas");
 }

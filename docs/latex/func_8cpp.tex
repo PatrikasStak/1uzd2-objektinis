@@ -1,0 +1,151 @@
+\doxysection{func.\+cpp File Reference}
+\hypertarget{func_8cpp}{}\label{func_8cpp}\index{func.cpp@{func.cpp}}
+{\ttfamily \+\#include "{}func.\+h"{}}\newline
+{\ttfamily \+\#include "{}names.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{func_8cpp_a279a3979598882038ed9a9ab6761d4cc}{Skaityti}} (vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\item 
+void \doxymbox{\hyperlink{func_8cpp_a0aec44318cc6998dde355b652d2c8825}{Skaityti\+Faila}} (vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\item 
+void \doxymbox{\hyperlink{func_8cpp_ac70ed8852df924fbe2982f73e2ce29e4}{Rezultatas}} (vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\item 
+void \doxymbox{\hyperlink{func_8cpp_a97f09f81ba85e6f227ffaaab74c66d3c}{Rezultatas\+Failo}} (vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&X)
+\item 
+void \doxymbox{\hyperlink{func_8cpp_a0bb1a52b759e219647f4a0e35c80e805}{Failu\+Generavimas}} ()
+\begin{DoxyCompactList}\small\item\em Generuoja studentų duomenų failus (1k, 10k, 100k, 1m, 10m). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Cont, typename Comp$>$ }\\void \doxymbox{\hyperlink{func_8cpp_aa7299094f87ed196ae9e2f82a8bd6492}{sort\+Container}} (Cont \&c, Comp comp)
+\item 
+{\footnotesize template$<$typename T, typename Alloc, typename Comp$>$ }\\void \doxymbox{\hyperlink{func_8cpp_aed12f2ed5705dab3534c8c9983bef59a}{sort\+Container}} (std::\+list$<$ T, Alloc $>$ \&c, Comp comp)
+\item 
+{\footnotesize template$<$typename Cont$>$ }\\void \doxymbox{\hyperlink{func_8cpp_ae8fb2176021e870e726fb2c9890cacff}{Generuotu\+Rusiavimas\+Impl}} (const std::\+string \&path)
+\item 
+void \doxymbox{\hyperlink{func_8cpp_a40b7ebdbf51d50cf667ffd4d4a87aaf6}{Generuotu\+Rusiavimas\+Vec}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant vektorių. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8cpp_a9412417c1f3f8e496908b58e86223c68}{Generuotu\+Rusiavimas\+List}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant sąrašą. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8cpp_a5733e1d54583e68a65a2ae918a418a1e}{Generuotu\+Rusiavimas\+Deque}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant deką. \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{func_8cpp_a0892fce17011ab976d9f2bf0f911ba61}{Trinti\+Faila}} (const std::\+string \&path)
+\begin{DoxyCompactList}\small\item\em Ištrina nurodytą failą. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{func_8cpp_doc-func-members}
+\Hypertarget{func_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{func_8cpp_a0bb1a52b759e219647f4a0e35c80e805}\index{func.cpp@{func.cpp}!FailuGeneravimas@{FailuGeneravimas}}
+\index{FailuGeneravimas@{FailuGeneravimas}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{FailuGeneravimas()}{FailuGeneravimas()}}
+{\footnotesize\ttfamily \label{func_8cpp_a0bb1a52b759e219647f4a0e35c80e805} 
+void Failu\+Generavimas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Generuoja studentų duomenų failus (1k, 10k, 100k, 1m, 10m). 
+
+Kiekvienam failui matuoja ir išveda generavimo laiką. \Hypertarget{func_8cpp_a5733e1d54583e68a65a2ae918a418a1e}\index{func.cpp@{func.cpp}!GeneruotuRusiavimasDeque@{GeneruotuRusiavimasDeque}}
+\index{GeneruotuRusiavimasDeque@{GeneruotuRusiavimasDeque}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasDeque()}{GeneruotuRusiavimasDeque()}}
+{\footnotesize\ttfamily \label{func_8cpp_a5733e1d54583e68a65a2ae918a418a1e} 
+void Generuotu\+Rusiavimas\+Deque (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant deką. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8cpp_ae8fb2176021e870e726fb2c9890cacff}\index{func.cpp@{func.cpp}!GeneruotuRusiavimasImpl@{GeneruotuRusiavimasImpl}}
+\index{GeneruotuRusiavimasImpl@{GeneruotuRusiavimasImpl}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasImpl()}{GeneruotuRusiavimasImpl()}}
+{\footnotesize\ttfamily \label{func_8cpp_ae8fb2176021e870e726fb2c9890cacff} 
+template$<$typename Cont$>$ \\
+void Generuotu\+Rusiavimas\+Impl (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_a9412417c1f3f8e496908b58e86223c68}\index{func.cpp@{func.cpp}!GeneruotuRusiavimasList@{GeneruotuRusiavimasList}}
+\index{GeneruotuRusiavimasList@{GeneruotuRusiavimasList}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasList()}{GeneruotuRusiavimasList()}}
+{\footnotesize\ttfamily \label{func_8cpp_a9412417c1f3f8e496908b58e86223c68} 
+void Generuotu\+Rusiavimas\+List (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant sąrašą. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8cpp_a40b7ebdbf51d50cf667ffd4d4a87aaf6}\index{func.cpp@{func.cpp}!GeneruotuRusiavimasVec@{GeneruotuRusiavimasVec}}
+\index{GeneruotuRusiavimasVec@{GeneruotuRusiavimasVec}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{GeneruotuRusiavimasVec()}{GeneruotuRusiavimasVec()}}
+{\footnotesize\ttfamily \label{func_8cpp_a40b7ebdbf51d50cf667ffd4d4a87aaf6} 
+void Generuotu\+Rusiavimas\+Vec (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Nuskaito, rikiuoja ir skirsto studentus iš failo naudojant vektorių. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
+\Hypertarget{func_8cpp_ac70ed8852df924fbe2982f73e2ce29e4}\index{func.cpp@{func.cpp}!Rezultatas@{Rezultatas}}
+\index{Rezultatas@{Rezultatas}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{Rezultatas()}{Rezultatas()}}
+{\footnotesize\ttfamily \label{func_8cpp_ac70ed8852df924fbe2982f73e2ce29e4} 
+void Rezultatas (\begin{DoxyParamCaption}\item[{vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_a97f09f81ba85e6f227ffaaab74c66d3c}\index{func.cpp@{func.cpp}!RezultatasFailo@{RezultatasFailo}}
+\index{RezultatasFailo@{RezultatasFailo}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{RezultatasFailo()}{RezultatasFailo()}}
+{\footnotesize\ttfamily \label{func_8cpp_a97f09f81ba85e6f227ffaaab74c66d3c} 
+void Rezultatas\+Failo (\begin{DoxyParamCaption}\item[{vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_a279a3979598882038ed9a9ab6761d4cc}\index{func.cpp@{func.cpp}!Skaityti@{Skaityti}}
+\index{Skaityti@{Skaityti}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{Skaityti()}{Skaityti()}}
+{\footnotesize\ttfamily \label{func_8cpp_a279a3979598882038ed9a9ab6761d4cc} 
+void Skaityti (\begin{DoxyParamCaption}\item[{vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_a0aec44318cc6998dde355b652d2c8825}\index{func.cpp@{func.cpp}!SkaitytiFaila@{SkaitytiFaila}}
+\index{SkaitytiFaila@{SkaitytiFaila}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{SkaitytiFaila()}{SkaitytiFaila()}}
+{\footnotesize\ttfamily \label{func_8cpp_a0aec44318cc6998dde355b652d2c8825} 
+void Skaityti\+Faila (\begin{DoxyParamCaption}\item[{vector$<$ \doxymbox{\hyperlink{class_studentas}{Studentas}} $>$ \&}]{X}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_aa7299094f87ed196ae9e2f82a8bd6492}\index{func.cpp@{func.cpp}!sortContainer@{sortContainer}}
+\index{sortContainer@{sortContainer}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{sortContainer()}{sortContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{func_8cpp_aa7299094f87ed196ae9e2f82a8bd6492} 
+template$<$typename Cont, typename Comp$>$ \\
+void sort\+Container (\begin{DoxyParamCaption}\item[{Cont \&}]{c}{, }\item[{Comp}]{comp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_aed12f2ed5705dab3534c8c9983bef59a}\index{func.cpp@{func.cpp}!sortContainer@{sortContainer}}
+\index{sortContainer@{sortContainer}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{sortContainer()}{sortContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{func_8cpp_aed12f2ed5705dab3534c8c9983bef59a} 
+template$<$typename T, typename Alloc, typename Comp$>$ \\
+void sort\+Container (\begin{DoxyParamCaption}\item[{std::\+list$<$ T, Alloc $>$ \&}]{c}{, }\item[{Comp}]{comp}{}\end{DoxyParamCaption})}
+
+\Hypertarget{func_8cpp_a0892fce17011ab976d9f2bf0f911ba61}\index{func.cpp@{func.cpp}!TrintiFaila@{TrintiFaila}}
+\index{TrintiFaila@{TrintiFaila}!func.cpp@{func.cpp}}
+\doxysubsubsection{\texorpdfstring{TrintiFaila()}{TrintiFaila()}}
+{\footnotesize\ttfamily \label{func_8cpp_a0892fce17011ab976d9f2bf0f911ba61} 
+void Trinti\+Faila (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Ištrina nurodytą failą. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Failo kelias \\
+\hline
+\end{DoxyParams}
