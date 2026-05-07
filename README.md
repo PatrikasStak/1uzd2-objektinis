@@ -378,4 +378,4 @@ cd docs/latex && make
 
 **Išvada**
 
-`v2.0` versijoje testai perkelti į Catch2 framework'ą, kuris suteikia aiškesnę testų struktūrą su `TEST_CASE` ir `REQUIRE` makro komandomis. Sugeneruota pilna Doxygen dokumentacija HTML ir LaTeX formatais. Repozitorija sutvarkyta: `.gitignore` atnaujintas, pašalinti visi nereikalingi failai.
+`v2.0` versijoje testai perkelti į Catch2 framework'ą, kuris suteikia aiškesnę testų struktūrą su `TEST_CASE` ir `REQUIRE` makro komandomis. Sugeneruota pilna Doxygen dokumentacija HTML ir LaTeX formatais. Repozitorija sutvarkyta: `.gitignore` atnaujintas, pašalinti visi nereikalingi failai (ideti i gitignore).
