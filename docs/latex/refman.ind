@@ -1,0 +1,218 @@
+\begin{theindex}
+
+  \item {\texorpdfstring{$\sim$}{\string~}Studentas}
+    \subitem {Studentas}, \hyperpage{10}
+  \item {\texorpdfstring{$\sim$}{\string~}Zmogus}
+    \subitem {Zmogus}, \hyperpage{17}
+
+  \indexspace
+
+  \item {addNd}
+    \subitem {Studentas}, \hyperpage{11}
+
+  \indexspace
+
+  \item {clearNd}
+    \subitem {Studentas}, \hyperpage{11}
+
+  \indexspace
+
+  \item {egz}
+    \subitem {Studentas}, \hyperpage{11}
+  \item {egz\_}
+    \subitem {Studentas}, \hyperpage{15}
+
+  \indexspace
+
+  \item {FailuGeneravimas}
+    \subitem {func.cpp}, \hyperpage{21}
+    \subitem {func.h}, \hyperpage{25}
+  \item {func.cpp}, \hyperpage{21}
+    \subitem {FailuGeneravimas}, \hyperpage{21}
+    \subitem {GeneruotuRusiavimasDeque}, \hyperpage{21}
+    \subitem {GeneruotuRusiavimasImpl}, \hyperpage{22}
+    \subitem {GeneruotuRusiavimasList}, \hyperpage{22}
+    \subitem {GeneruotuRusiavimasVec}, \hyperpage{22}
+    \subitem {Rezultatas}, \hyperpage{22}
+    \subitem {RezultatasFailo}, \hyperpage{22}
+    \subitem {Skaityti}, \hyperpage{23}
+    \subitem {SkaitytiFaila}, \hyperpage{23}
+    \subitem {sortContainer}, \hyperpage{23}
+    \subitem {TrintiFaila}, \hyperpage{23}
+  \item {func.h}, \hyperpage{23}
+    \subitem {FailuGeneravimas}, \hyperpage{25}
+    \subitem {GeneruotuRusiavimasDeque}, \hyperpage{25}
+    \subitem {GeneruotuRusiavimasList}, \hyperpage{25}
+    \subitem {GeneruotuRusiavimasVec}, \hyperpage{25}
+    \subitem {Mediana}, \hyperpage{26}
+    \subitem {Rezultatas}, \hyperpage{26}
+    \subitem {RezultatasFailo}, \hyperpage{26}
+    \subitem {Skaityti}, \hyperpage{27}
+    \subitem {SkaitytiFaila}, \hyperpage{27}
+    \subitem {StudentDeque}, \hyperpage{24}
+    \subitem {StudentList}, \hyperpage{24}
+    \subitem {StudentVec}, \hyperpage{25}
+    \subitem {TrintiFaila}, \hyperpage{27}
+    \subitem {Vidurkis}, \hyperpage{28}
+
+  \indexspace
+
+  \item {galutinis\_med\_}
+    \subitem {Studentas}, \hyperpage{15}
+  \item {galutinis\_vid\_}
+    \subitem {Studentas}, \hyperpage{16}
+  \item {galutinisMed}
+    \subitem {Studentas}, \hyperpage{11}
+  \item {galutinisVid}
+    \subitem {Studentas}, \hyperpage{11}
+  \item {GeneruotuRusiavimasDeque}
+    \subitem {func.cpp}, \hyperpage{21}
+    \subitem {func.h}, \hyperpage{25}
+  \item {GeneruotuRusiavimasImpl}
+    \subitem {func.cpp}, \hyperpage{22}
+  \item {GeneruotuRusiavimasList}
+    \subitem {func.cpp}, \hyperpage{22}
+    \subitem {func.h}, \hyperpage{25}
+  \item {GeneruotuRusiavimasVec}
+    \subitem {func.cpp}, \hyperpage{22}
+    \subitem {func.h}, \hyperpage{25}
+
+  \indexspace
+
+  \item {main}
+    \subitem {main.cpp}, \hyperpage{29}
+  \item {main.cpp}, \hyperpage{29}
+    \subitem {main}, \hyperpage{29}
+  \item {Mediana}
+    \subitem {func.h}, \hyperpage{26}
+
+  \indexspace
+
+  \item {nd}
+    \subitem {Studentas}, \hyperpage{11}
+  \item {nd\_}
+    \subitem {Studentas}, \hyperpage{16}
+
+  \indexspace
+
+  \item {operator$<$$<$}
+    \subitem {Studentas}, \hyperpage{15}
+    \subitem {Studentas.cpp}, \hyperpage{29}
+  \item {operator$>$$>$}
+    \subitem {Studentas}, \hyperpage{15}
+    \subitem {Studentas.cpp}, \hyperpage{29}
+  \item {operator=}
+    \subitem {Studentas}, \hyperpage{12}
+
+  \indexspace
+
+  \item {pavarde}
+    \subitem {Studentas}, \hyperpage{12}
+    \subitem {Zmogus}, \hyperpage{18}
+  \item {pavarde\_}
+    \subitem {Zmogus}, \hyperpage{19}
+
+  \indexspace
+
+  \item {Rezultatas}
+    \subitem {func.cpp}, \hyperpage{22}
+    \subitem {func.h}, \hyperpage{26}
+  \item {RezultatasFailo}
+    \subitem {func.cpp}, \hyperpage{22}
+    \subitem {func.h}, \hyperpage{26}
+
+  \indexspace
+
+  \item {setEgz}
+    \subitem {Studentas}, \hyperpage{12}
+  \item {setGalutinisMed}
+    \subitem {Studentas}, \hyperpage{13}
+  \item {setGalutinisVid}
+    \subitem {Studentas}, \hyperpage{13}
+  \item {setPavarde}
+    \subitem {Studentas}, \hyperpage{13}
+    \subitem {Zmogus}, \hyperpage{18}
+  \item {setVardas}
+    \subitem {Studentas}, \hyperpage{13}
+    \subitem {Zmogus}, \hyperpage{18}
+  \item {skaiciuotiGalutinius}
+    \subitem {Studentas}, \hyperpage{14}
+  \item {Skaityti}
+    \subitem {func.cpp}, \hyperpage{23}
+    \subitem {func.h}, \hyperpage{27}
+  \item {SkaitytiFaila}
+    \subitem {func.cpp}, \hyperpage{23}
+    \subitem {func.h}, \hyperpage{27}
+  \item {sortContainer}
+    \subitem {func.cpp}, \hyperpage{23}
+  \item {Studentas}, \hyperpage{7}
+    \subitem {\texorpdfstring{$\sim$}{\string~}Studentas}, 
+		\hyperpage{10}
+    \subitem {addNd}, \hyperpage{11}
+    \subitem {clearNd}, \hyperpage{11}
+    \subitem {egz}, \hyperpage{11}
+    \subitem {egz\_}, \hyperpage{15}
+    \subitem {galutinis\_med\_}, \hyperpage{15}
+    \subitem {galutinis\_vid\_}, \hyperpage{16}
+    \subitem {galutinisMed}, \hyperpage{11}
+    \subitem {galutinisVid}, \hyperpage{11}
+    \subitem {nd}, \hyperpage{11}
+    \subitem {nd\_}, \hyperpage{16}
+    \subitem {operator$<$$<$}, \hyperpage{15}
+    \subitem {operator$>$$>$}, \hyperpage{15}
+    \subitem {operator=}, \hyperpage{12}
+    \subitem {pavarde}, \hyperpage{12}
+    \subitem {setEgz}, \hyperpage{12}
+    \subitem {setGalutinisMed}, \hyperpage{13}
+    \subitem {setGalutinisVid}, \hyperpage{13}
+    \subitem {setPavarde}, \hyperpage{13}
+    \subitem {setVardas}, \hyperpage{13}
+    \subitem {skaiciuotiGalutinius}, \hyperpage{14}
+    \subitem {Studentas}, \hyperpage{9, 10}
+    \subitem {tipas}, \hyperpage{14}
+    \subitem {vardas}, \hyperpage{14}
+  \item {Studentas.cpp}, \hyperpage{29}
+    \subitem {operator$<$$<$}, \hyperpage{29}
+    \subitem {operator$>$$>$}, \hyperpage{29}
+  \item {Studentas.h}, \hyperpage{30}
+  \item {StudentDeque}
+    \subitem {func.h}, \hyperpage{24}
+  \item {StudentList}
+    \subitem {func.h}, \hyperpage{24}
+  \item {StudentVec}
+    \subitem {func.h}, \hyperpage{25}
+
+  \indexspace
+
+  \item {tipas}
+    \subitem {Studentas}, \hyperpage{14}
+    \subitem {Zmogus}, \hyperpage{18}
+  \item {TrintiFaila}
+    \subitem {func.cpp}, \hyperpage{23}
+    \subitem {func.h}, \hyperpage{27}
+
+  \indexspace
+
+  \item {vardas}
+    \subitem {Studentas}, \hyperpage{14}
+    \subitem {Zmogus}, \hyperpage{18}
+  \item {vardas\_}
+    \subitem {Zmogus}, \hyperpage{19}
+  \item {Vidurkis}
+    \subitem {func.h}, \hyperpage{28}
+
+  \indexspace
+
+  \item {Zmogus}, \hyperpage{16}
+    \subitem {\texorpdfstring{$\sim$}{\string~}Zmogus}, \hyperpage{17}
+    \subitem {pavarde}, \hyperpage{18}
+    \subitem {pavarde\_}, \hyperpage{19}
+    \subitem {setPavarde}, \hyperpage{18}
+    \subitem {setVardas}, \hyperpage{18}
+    \subitem {tipas}, \hyperpage{18}
+    \subitem {vardas}, \hyperpage{18}
+    \subitem {vardas\_}, \hyperpage{19}
+    \subitem {Zmogus}, \hyperpage{17}
+  \item {Zmogus.h}, \hyperpage{31}
+
+\end{theindex}
