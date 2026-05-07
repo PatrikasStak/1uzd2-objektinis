@@ -1,12 +1,11 @@
-# Compiled binaries
+
 main
 a.out
 studentas_test
 
-# Object files
+
 *.o
 
-# Generated data files
 generuoti1000.txt
 generuoti10000.txt
 generuoti100000.txt
@@ -21,5 +20,5 @@ maladiec.txt
 vargsai.txt
 kursiokai.txt
 
-# macOS
+
 .DS_Store
