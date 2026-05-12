@@ -379,3 +379,141 @@ cd docs/latex && make
 **Išvada**
 
 `v2.0` versijoje testai perkelti į Catch2 framework'ą, kuris suteikia aiškesnę testų struktūrą su `TEST_CASE` ir `REQUIRE` makro komandomis. Sugeneruota pilna Doxygen dokumentacija HTML ir LaTeX formatais. Repozitorija sutvarkyta: `.gitignore` atnaujintas, pašalinti visi nereikalingi failai (idėti i gitignore).
+
+---
+
+## v3.0
+
+- Sukurtas nuosavas `Vector<T>` konteineris — pilnavertis `std::vector` pakaitalas
+- `Vector` naudojamas visoje programoje vietoje `std::vector`
+- Atlikta spartos analizė: `std::vector` vs `Vector`
+- Perskirstymų skaičius patikrintas ir palyginas
+- Visi `Vector` metodai padengti Catch2 testais (`vector_test.cpp`)
+- `Vector.h` pilnai dokumentuotas Doxygen komentarais
+
+### Kaip paleisti testus
+
+```bash
+make test          # sukompiliuoja ir paleidžia abu testų rinkinius
+```
+
+Tikėtinas rezultatas:
+
+```
+All tests passed (56 assertions in 11 test cases)      ← studentas_test
+All tests passed (1282 assertions in 92 test cases)    ← vector_test
+```
+
+### Kaip paleisti spartos testus
+
+```bash
+make benchmark
+./benchmark
+
+make realloc_benchmark
+./realloc_benchmark
+```
+
+---
+
+### Spartos analizė: `push_back` užpildymas
+
+Matavimo aplinka: Apple M2, macOS, `-O2`.
+
+| n | std::vector (ms) | Vector (ms) | santykis |
+|---:|---:|---:|---:|
+| 10 000 | 0.170 | 0.041 | 0.24× |
+| 100 000 | 0.226 | 0.141 | 0.62× |
+| 1 000 000 | 2.083 | 1.252 | 0.60× |
+| 10 000 000 | 34.968 | 12.919 | 0.37× |
+| 100 000 000 | 193.360 | 155.056 | 0.80× |
+
+**Komentaras:** `Vector` visur greitesnis arba lygus `std::vector`. Pagrindinė priežastis — `Vector` naudoja `::operator new` tiesiogiai, be allocator abstrakcijos sluoksnio kurį naudoja `std::vector`.
+
+---
+
+### Perskirstymų skaičius (100 000 000 elementų)
+
+| Konteineris | Perskirstymų sk. |
+|---|---:|
+| `std::vector` | 28 |
+| `Vector` | 28 |
+
+**Komentaras:** Abu konteineriai perskirstomi lygiai 28 kartus — tai atitinka teorinę reikšmę `⌈log₂(100 000 000)⌉ + 1 = 28` dvigubinimo strategijai (`capacity` = 1 → 2 → 4 → … → 2²⁷). Tai patvirtina, kad `Vector` atkartoja `std::vector` atminties augimo logiką.
+
+---
+
+### 5 `Vector` funkcijų pavyzdžiai
+
+#### 1. `push_back` ir `reserve`
+
+```cpp
+Vector<int> v;
+v.reserve(5);          // rezervuoja atmintį 5 elementams (size=0, capacity=5)
+v.push_back(10);
+v.push_back(20);
+v.push_back(30);
+// v = {10, 20, 30}, size=3, capacity=5 — jokie perskirstymai neįvyko
+```
+
+`reserve` leidžia iš anksto rezervuoti atmintį ir išvengti perskirstymų vėliau — tai ypač naudinga, kai elementų skaičius žinomas iš anksto.
+
+---
+
+#### 2. `at` su išimties gaudymu
+
+```cpp
+Vector<int> v = {1, 2, 3};
+std::cout << v.at(1);   // → 2  (teisingas indeksas)
+
+try {
+    v.at(10);           // meta std::out_of_range
+} catch (const std::out_of_range& e) {
+    std::cerr << e.what();  // → "Vector::at"
+}
+```
+
+Skirtingai nuo `operator[]`, `at()` tikrina ribas ir meta išimtį — tai saugus būdas pasiekti elementus, kai indeksas gali būti neteisingas.
+
+---
+
+#### 3. `erase` su iteratoriumi
+
+```cpp
+Vector<int> v = {1, 2, 3, 4, 5};
+auto it = v.erase(v.begin() + 2);   // pašalina elementą indekse 2 (reikšmė 3)
+// v = {1, 2, 4, 5}
+// *it == 4  (iteratorius rodo į elementą po pašalinto)
+```
+
+`erase` grąžina iteratorių į kitą elementą po pašalinto — tai leidžia tęsti iteraciją be papildomo indeksavimo.
+
+---
+
+#### 4. `insert` su inicializavimo sąrašu
+
+```cpp
+Vector<int> v = {1, 5};
+v.insert(v.cbegin() + 1, {2, 3, 4});   // įterpia {2,3,4} prieš indeksą 1
+// v = {1, 2, 3, 4, 5}
+```
+
+Viena `insert` iškvietimas su inicializavimo sąrašu pakeičia visą vidurinę sekciją — tai glaustesnis ir efektyvesnis būdas nei keli atskiri `insert` iškvietimai.
+
+---
+
+#### 5. `operator==` ir leksikografiniai palyginimo operatoriai
+
+```cpp
+Vector<int> a = {1, 2, 3};
+Vector<int> b = {1, 2, 4};
+Vector<int> c = {1, 2, 3};
+
+a == c   // → true   (vienodi)
+a != b   // → true   (skiriasi)
+a <  b   // → true   (3 < 4 trečioje pozicijoje)
+b >  a   // → true
+a <= c   // → true
+```
+
+Visi šeši palyginimo operatoriai (`==`, `!=`, `<`, `<=`, `>`, `>=`) leksikografiškai lygina du `Vector` objektus — elgiasi lygiai kaip `std::vector`.
