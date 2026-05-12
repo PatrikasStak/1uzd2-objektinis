@@ -2,7 +2,7 @@
 
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-    std::vector<Studentas> A;
+    Vector<Studentas> A;
     std::cout<<"1 - vesti ranka, 2 - skaityti iš failo, 3 - generuoti failus, 4 - failu testavimas: ";
     std::string choice;
     while(true){
