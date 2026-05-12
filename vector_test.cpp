@@ -698,3 +698,96 @@ TEST_CASE("erase empty range is a no-op", "[insert_erase]") {
     REQUIRE(v.size() == 3);
     REQUIRE(*it == 2);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Non-member comparison operators
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("operator== equal vectors", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 3};
+    REQUIRE(a == b);
+    REQUIRE_FALSE(a != b);
+}
+
+TEST_CASE("operator== different values", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 4};
+    REQUIRE_FALSE(a == b);
+    REQUIRE(a != b);
+}
+
+TEST_CASE("operator== different sizes", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2};
+    REQUIRE_FALSE(a == b);
+    REQUIRE(a != b);
+}
+
+TEST_CASE("operator== two empty vectors", "[comparisons]") {
+    Vector<int> a, b;
+    REQUIRE(a == b);
+}
+
+TEST_CASE("operator< lexicographic less-than", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 4};
+    REQUIRE(a < b);
+    REQUIRE_FALSE(b < a);
+}
+
+TEST_CASE("operator< shorter vector is less when prefix matches", "[comparisons]") {
+    Vector<int> a = {1, 2};
+    Vector<int> b = {1, 2, 3};
+    REQUIRE(a < b);
+    REQUIRE_FALSE(b < a);
+}
+
+TEST_CASE("operator< equal vectors not less-than", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 3};
+    REQUIRE_FALSE(a < b);
+    REQUIRE_FALSE(b < a);
+}
+
+TEST_CASE("operator<=", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 3};
+    Vector<int> c = {1, 2, 4};
+    REQUIRE(a <= b);
+    REQUIRE(a <= c);
+    REQUIRE_FALSE(c <= a);
+}
+
+TEST_CASE("operator>", "[comparisons]") {
+    Vector<int> a = {1, 2, 4};
+    Vector<int> b = {1, 2, 3};
+    REQUIRE(a > b);
+    REQUIRE_FALSE(b > a);
+}
+
+TEST_CASE("operator>=", "[comparisons]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {1, 2, 3};
+    Vector<int> c = {1, 2, 4};
+    REQUIRE(a >= b);
+    REQUIRE(c >= a);
+    REQUIRE_FALSE(a >= c);
+}
+
+TEST_CASE("comparisons with strings", "[comparisons]") {
+    Vector<std::string> a = {"apple", "banana"};
+    Vector<std::string> b = {"apple", "cherry"};
+    REQUIRE(a < b);
+    REQUIRE(b > a);
+    REQUIRE(a != b);
+}
+
+TEST_CASE("comparison: empty vector is less than non-empty", "[comparisons]") {
+    Vector<int> empty;
+    Vector<int> full = {1};
+    REQUIRE(empty < full);
+    REQUIRE(full  > empty);
+    REQUIRE(empty <= full);
+    REQUIRE(full  >= empty);
+}
