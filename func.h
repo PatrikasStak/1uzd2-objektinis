@@ -8,8 +8,8 @@
 
 #include "Studentas.h"
 
-/// Studentų vektorius
-using StudentVec = std::vector<Studentas>;
+/// Studentų vektorius (custom Vector konteineris)
+using StudentVec = Vector<Studentas>;
 /// Studentų sąrašas
 using StudentList = std::list<Studentas>;
 /// Studentų dekas
@@ -22,7 +22,7 @@ using StudentDeque = std::deque<Studentas>;
  * visiškai atsitiktinių duomenų generavimą.
  * @param X Vektorius, į kurį pridedami studentai
  */
-void Skaityti(std::vector<Studentas>& X);
+void Skaityti(Vector<Studentas>& X);
 
 /**
  * @brief Skaito studentų duomenis iš failo.
@@ -31,7 +31,7 @@ void Skaityti(std::vector<Studentas>& X);
  * studentų įrašus. Matuoja ir išveda nuskaitymo laiką.
  * @param X Vektorius, į kurį pridedami studentai
  */
-void SkaitytiFaila(std::vector<Studentas>& X);
+void SkaitytiFaila(Vector<Studentas>& X);
 
 /**
  * @brief Skaičiuoja vidurkį iš vektoriau.
@@ -39,7 +39,7 @@ void SkaitytiFaila(std::vector<Studentas>& X);
  * @param x Indeksas (nenaudojamas šiuo metu)
  * @return Vidurkio reikšmė
  */
-double Vidurkis(const std::vector<Studentas>& X, int x);
+double Vidurkis(const Vector<Studentas>& X, int x);
 
 /**
  * @brief Skaičiuoja medianą iš vektoriaus.
@@ -47,7 +47,7 @@ double Vidurkis(const std::vector<Studentas>& X, int x);
  * @param x Indeksas (nenaudojamas šiuo metu)
  * @return Medianos reikšmė
  */
-double Mediana(const std::vector<Studentas>& X, int x);
+double Mediana(const Vector<Studentas>& X, int x);
 
 /**
  * @brief Rikiuoja ir išveda rezultatus į konsolę arba failą.
@@ -55,7 +55,7 @@ double Mediana(const std::vector<Studentas>& X, int x);
  * Leidžia pasirinkti rikiavimo kriterijų ir išvesties tikslą.
  * @param X Studentų vektorius
  */
-void Rezultatas(std::vector<Studentas>& X);
+void Rezultatas(Vector<Studentas>& X);
 
 /**
  * @brief Rikiuoja ir išveda rezultatus (abi galutinių balų versijas).
@@ -63,7 +63,7 @@ void Rezultatas(std::vector<Studentas>& X);
  * Išveda ir vidurkio, ir medianos galutinius balus.
  * @param X Studentų vektorius
  */
-void RezultatasFailo(std::vector<Studentas>& X);
+void RezultatasFailo(Vector<Studentas>& X);
 
 /**
  * @brief Generuoja studentų duomenų failus (1k, 10k, 100k, 1m, 10m).

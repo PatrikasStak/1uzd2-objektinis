@@ -6,9 +6,8 @@ using std::endl;
 using std::string;
 using std::left;
 using std::setw;
-using std::vector;
 
-void Skaityti(vector<Studentas>& X){
+void Skaityti(Vector<Studentas>& X){
     string line;
     int s=0;
     srand(time(0));
@@ -142,7 +141,7 @@ void Skaityti(vector<Studentas>& X){
     }
 
 }
-void SkaitytiFaila(vector<Studentas>& X){
+void SkaitytiFaila(Vector<Studentas>& X){
     string header;
     string path;
     std:: ifstream in;
@@ -214,7 +213,7 @@ std::cout << "Laikas: " <<std::fixed<<std::setprecision(5)<< dt.count() << " s\n
 }
 
 
-void Rezultatas(vector<Studentas>& X){
+void Rezultatas(Vector<Studentas>& X){
     if(X.empty()){
         std::cerr << "Nera duomenu." << endl;
         return;
@@ -315,7 +314,7 @@ void Rezultatas(vector<Studentas>& X){
 
 }
 
-void RezultatasFailo(vector<Studentas>& X){
+void RezultatasFailo(Vector<Studentas>& X){
     if(X.empty()){
         std::cerr << "Nera duomenu rikiavimui." << endl;
         return;
