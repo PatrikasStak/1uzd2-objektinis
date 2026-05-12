@@ -446,6 +446,127 @@ TEST_CASE("size and capacity after clear()", "[capacity]") {
     std::size_t cap = v.capacity();
     v.clear();
     REQUIRE(v.size()     == 0);
-    REQUIRE(v.capacity() == cap); // capacity unchanged by clear
+    REQUIRE(v.capacity() == cap);
     REQUIRE(v.empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Modifiers: push_back, pop_back, clear, resize, emplace_back
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("push_back appends elements", "[modifiers]") {
+    Vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    REQUIRE(v.size() == 3);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 2);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("push_back by move", "[modifiers]") {
+    Vector<std::string> v;
+    std::string s = "hello";
+    v.push_back(std::move(s));
+    REQUIRE(v.size()  == 1);
+    REQUIRE(v[0]      == "hello");
+    REQUIRE(s.empty());         // moved-from string is empty
+}
+
+TEST_CASE("push_back many elements triggers multiple reallocations", "[modifiers]") {
+    Vector<int> v;
+    for (int i = 0; i < 1000; ++i)
+        v.push_back(i);
+    REQUIRE(v.size() == 1000);
+    for (int i = 0; i < 1000; ++i)
+        REQUIRE(v[i] == i);
+}
+
+TEST_CASE("pop_back removes last element", "[modifiers]") {
+    Vector<int> v = {1, 2, 3};
+    v.pop_back();
+    REQUIRE(v.size() == 2);
+    REQUIRE(v.back() == 2);
+}
+
+TEST_CASE("pop_back down to empty", "[modifiers]") {
+    Vector<int> v = {10, 20};
+    v.pop_back();
+    v.pop_back();
+    REQUIRE(v.empty());
+}
+
+TEST_CASE("clear() destroys all elements", "[modifiers]") {
+    Vector<std::string> v = {"a", "b", "c"};
+    v.clear();
+    REQUIRE(v.empty());
+    REQUIRE(v.size() == 0);
+    // Can push_back after clear
+    v.push_back("x");
+    REQUIRE(v.size() == 1);
+    REQUIRE(v[0] == "x");
+}
+
+TEST_CASE("resize(n) shrinks vector", "[modifiers]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    v.resize(3);
+    REQUIRE(v.size() == 3);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("resize(n) grows vector with value-init elements", "[modifiers]") {
+    Vector<int> v = {1, 2};
+    v.resize(5);
+    REQUIRE(v.size() == 5);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 2);
+    REQUIRE(v[2] == 0);
+    REQUIRE(v[4] == 0);
+}
+
+TEST_CASE("resize(n, val) grows vector filling with val", "[modifiers]") {
+    Vector<int> v = {1, 2};
+    v.resize(5, 99);
+    REQUIRE(v.size() == 5);
+    REQUIRE(v[1] == 2);
+    REQUIRE(v[2] == 99);
+    REQUIRE(v[4] == 99);
+}
+
+TEST_CASE("resize to same size is a no-op", "[modifiers]") {
+    Vector<int> v = {1, 2, 3};
+    v.resize(3);
+    REQUIRE(v.size() == 3);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("emplace_back constructs in place", "[modifiers]") {
+    Vector<std::pair<int,int>> v;
+    v.emplace_back(1, 2);
+    v.emplace_back(3, 4);
+    REQUIRE(v.size()     == 2);
+    REQUIRE(v[0].first  == 1);
+    REQUIRE(v[0].second == 2);
+    REQUIRE(v[1].first  == 3);
+    REQUIRE(v[1].second == 4);
+}
+
+TEST_CASE("swap exchanges contents", "[modifiers]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {4, 5};
+    a.swap(b);
+    REQUIRE(a.size() == 2);
+    REQUIRE(a[0]     == 4);
+    REQUIRE(b.size() == 3);
+    REQUIRE(b[0]     == 1);
+}
+
+TEST_CASE("non-member swap works", "[modifiers]") {
+    Vector<int> a = {1, 2, 3};
+    Vector<int> b = {4, 5};
+    swap(a, b);
+    REQUIRE(a.size() == 2);
+    REQUIRE(b.size() == 3);
 }
