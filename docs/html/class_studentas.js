@@ -10,7 +10,7 @@ var class_studentas =
     [ "egz", "class_studentas.html#a5fde327b128bf9763233e09485d5cdaf", null ],
     [ "galutinisMed", "class_studentas.html#ab9dcc63a1ad95f1f34db3e5a96449720", null ],
     [ "galutinisVid", "class_studentas.html#a49a2519eb2a57b8c0b572cf414ccc3fc", null ],
-    [ "nd", "class_studentas.html#aeaad6f4ac35b8a40d4dafaf28e89fbe7", null ],
+    [ "nd", "class_studentas.html#ae0b7a6f041dcef76de476950547c32c7", null ],
     [ "operator=", "class_studentas.html#a25bcc531503d3bc490dab4a656e3b8e9", null ],
     [ "operator=", "class_studentas.html#a6379482d741209e9a2d902023676fb45", null ],
     [ "pavarde", "class_studentas.html#a67cbc20c9554324502d140eb05370be8", null ],
@@ -27,5 +27,5 @@ var class_studentas =
     [ "egz_", "class_studentas.html#a1d99507fca56727060b9b76a7a52f346", null ],
     [ "galutinis_med_", "class_studentas.html#a53661bf918d447574f98657aac346a16", null ],
     [ "galutinis_vid_", "class_studentas.html#a9ec81c398e86c12cef88aedb83f7160a", null ],
-    [ "nd_", "class_studentas.html#a1c3423fc1d91e7d2d8271884d60dde3c", null ]
+    [ "nd_", "class_studentas.html#aee61b15c07523a6fe0cda69c5089622c", null ]
 ];

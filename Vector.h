@@ -13,33 +13,43 @@
 /**
  * @file Vector.h
  * @brief Custom Vector container — drop-in replacement for std::vector.
+ * @author Patrikas
  */
 
 /**
  * @class Vector
  * @brief Dynamic array template container mimicking std::vector.
  *
- * Uses raw heap memory (operator new / placement new) so elements are only
- * constructed when needed, exactly like the standard library implementation.
+ * Manages a heap-allocated contiguous buffer using @c operator @c new and
+ * placement-new so that elements are only constructed when they are actually
+ * inserted — exactly like the standard library implementation.  The buffer
+ * doubles in size on each reallocation, giving amortised O(1) push_back.
  *
- * @tparam T Element type.
+ * Satisfies the *SequenceContainer* and *ReversibleContainer* named
+ * requirements and provides a random-access iterator pair that models
+ * *LegacyRandomAccessIterator*.
+ *
+ * @tparam T Element type.  Must be *MoveInsertable* into the container.
  */
 template <typename T>
 class Vector {
 public:
     // ── Member types ──────────────────────────────────────────────────────────
-    using value_type             = T;
-    using size_type              = std::size_t;
-    using difference_type        = std::ptrdiff_t;
-    using reference              = T&;
-    using const_reference        = const T&;
-    using pointer                = T*;
-    using const_pointer          = const T*;
+    using value_type             = T;             ///< Element type.
+    using size_type              = std::size_t;   ///< Unsigned size/index type.
+    using difference_type        = std::ptrdiff_t;///< Signed difference type.
+    using reference              = T&;            ///< Mutable element reference.
+    using const_reference        = const T&;      ///< Immutable element reference.
+    using pointer                = T*;            ///< Pointer to element.
+    using const_pointer          = const T*;      ///< Pointer to const element.
 
     // ── iterator ──────────────────────────────────────────────────────────────
     /**
      * @class iterator
-     * @brief Random-access iterator over Vector elements.
+     * @brief Mutable random-access iterator over Vector elements.
+     *
+     * Models *LegacyRandomAccessIterator*.  Wraps a raw pointer so all
+     * arithmetic operations are O(1).
      */
     class iterator {
     public:
@@ -49,35 +59,41 @@ public:
         using pointer           = T*;
         using reference         = T&;
 
+        /// Constructs a singular (null) iterator.
         iterator() noexcept : ptr_(nullptr) {}
+        /// Constructs an iterator pointing to @p p.
         explicit iterator(T* p) noexcept : ptr_(p) {}
 
-        reference operator*()  const noexcept { return *ptr_; }
-        pointer   operator->() const noexcept { return ptr_; }
+        reference operator*()  const noexcept { return *ptr_; }   ///< Dereference.
+        pointer   operator->() const noexcept { return ptr_; }    ///< Member access.
+        /// Subscript — equivalent to `*(it + n)`.
         reference operator[](difference_type n) const noexcept { return ptr_[n]; }
 
-        iterator& operator++()    noexcept { ++ptr_; return *this; }
-        iterator  operator++(int) noexcept { iterator t(*this); ++ptr_; return t; }
-        iterator& operator--()    noexcept { --ptr_; return *this; }
-        iterator  operator--(int) noexcept { iterator t(*this); --ptr_; return t; }
+        iterator& operator++()    noexcept { ++ptr_; return *this; } ///< Pre-increment.
+        iterator  operator++(int) noexcept { iterator t(*this); ++ptr_; return t; } ///< Post-increment.
+        iterator& operator--()    noexcept { --ptr_; return *this; } ///< Pre-decrement.
+        iterator  operator--(int) noexcept { iterator t(*this); --ptr_; return t; } ///< Post-decrement.
 
-        iterator& operator+=(difference_type n) noexcept { ptr_ += n; return *this; }
-        iterator& operator-=(difference_type n) noexcept { ptr_ -= n; return *this; }
-        iterator  operator+(difference_type n) const noexcept { return iterator(ptr_ + n); }
-        iterator  operator-(difference_type n) const noexcept { return iterator(ptr_ - n); }
+        iterator& operator+=(difference_type n) noexcept { ptr_ += n; return *this; } ///< Advance by @p n.
+        iterator& operator-=(difference_type n) noexcept { ptr_ -= n; return *this; } ///< Retreat by @p n.
+        iterator  operator+(difference_type n) const noexcept { return iterator(ptr_ + n); } ///< Returns advanced copy.
+        iterator  operator-(difference_type n) const noexcept { return iterator(ptr_ - n); } ///< Returns retreated copy.
+        /// Distance between two iterators.
         difference_type operator-(const iterator& o) const noexcept { return ptr_ - o.ptr_; }
 
+        /// Supports `n + it` syntax.
         friend iterator operator+(difference_type n, const iterator& it) noexcept {
             return iterator(it.ptr_ + n);
         }
 
-        bool operator==(const iterator& o) const noexcept { return ptr_ == o.ptr_; }
-        bool operator!=(const iterator& o) const noexcept { return ptr_ != o.ptr_; }
-        bool operator< (const iterator& o) const noexcept { return ptr_ <  o.ptr_; }
-        bool operator<=(const iterator& o) const noexcept { return ptr_ <= o.ptr_; }
-        bool operator> (const iterator& o) const noexcept { return ptr_ >  o.ptr_; }
-        bool operator>=(const iterator& o) const noexcept { return ptr_ >= o.ptr_; }
+        bool operator==(const iterator& o) const noexcept { return ptr_ == o.ptr_; } ///< Equality.
+        bool operator!=(const iterator& o) const noexcept { return ptr_ != o.ptr_; } ///< Inequality.
+        bool operator< (const iterator& o) const noexcept { return ptr_ <  o.ptr_; } ///< Less-than.
+        bool operator<=(const iterator& o) const noexcept { return ptr_ <= o.ptr_; } ///< Less-or-equal.
+        bool operator> (const iterator& o) const noexcept { return ptr_ >  o.ptr_; } ///< Greater-than.
+        bool operator>=(const iterator& o) const noexcept { return ptr_ >= o.ptr_; } ///< Greater-or-equal.
 
+        /// Returns the underlying raw pointer.
         T* base() const noexcept { return ptr_; }
     private:
         T* ptr_;
@@ -87,6 +103,9 @@ public:
     /**
      * @class const_iterator
      * @brief Read-only random-access iterator over Vector elements.
+     *
+     * Implicitly constructible from @c iterator, allowing mutable iterators
+     * to be passed where a const one is expected.
      */
     class const_iterator {
     public:
@@ -96,49 +115,56 @@ public:
         using pointer           = const T*;
         using reference         = const T&;
 
+        /// Constructs a singular (null) const_iterator.
         const_iterator() noexcept : ptr_(nullptr) {}
+        /// Constructs a const_iterator pointing to @p p.
         explicit const_iterator(const T* p) noexcept : ptr_(p) {}
+        /// Implicit conversion from mutable iterator.
         const_iterator(const iterator& it) noexcept : ptr_(it.base()) {}
 
-        reference operator*()  const noexcept { return *ptr_; }
-        pointer   operator->() const noexcept { return ptr_; }
+        reference operator*()  const noexcept { return *ptr_; }  ///< Dereference.
+        pointer   operator->() const noexcept { return ptr_; }   ///< Member access.
+        /// Subscript — equivalent to `*(it + n)`.
         reference operator[](difference_type n) const noexcept { return ptr_[n]; }
 
-        const_iterator& operator++()    noexcept { ++ptr_; return *this; }
-        const_iterator  operator++(int) noexcept { const_iterator t(*this); ++ptr_; return t; }
-        const_iterator& operator--()    noexcept { --ptr_; return *this; }
-        const_iterator  operator--(int) noexcept { const_iterator t(*this); --ptr_; return t; }
+        const_iterator& operator++()    noexcept { ++ptr_; return *this; } ///< Pre-increment.
+        const_iterator  operator++(int) noexcept { const_iterator t(*this); ++ptr_; return t; } ///< Post-increment.
+        const_iterator& operator--()    noexcept { --ptr_; return *this; } ///< Pre-decrement.
+        const_iterator  operator--(int) noexcept { const_iterator t(*this); --ptr_; return t; } ///< Post-decrement.
 
-        const_iterator& operator+=(difference_type n) noexcept { ptr_ += n; return *this; }
-        const_iterator& operator-=(difference_type n) noexcept { ptr_ -= n; return *this; }
-        const_iterator  operator+(difference_type n) const noexcept { return const_iterator(ptr_ + n); }
-        const_iterator  operator-(difference_type n) const noexcept { return const_iterator(ptr_ - n); }
+        const_iterator& operator+=(difference_type n) noexcept { ptr_ += n; return *this; } ///< Advance by @p n.
+        const_iterator& operator-=(difference_type n) noexcept { ptr_ -= n; return *this; } ///< Retreat by @p n.
+        const_iterator  operator+(difference_type n) const noexcept { return const_iterator(ptr_ + n); } ///< Returns advanced copy.
+        const_iterator  operator-(difference_type n) const noexcept { return const_iterator(ptr_ - n); } ///< Returns retreated copy.
+        /// Distance between two const_iterators.
         difference_type operator-(const const_iterator& o) const noexcept { return ptr_ - o.ptr_; }
 
+        /// Supports `n + it` syntax.
         friend const_iterator operator+(difference_type n, const const_iterator& it) noexcept {
             return const_iterator(it.ptr_ + n);
         }
 
-        bool operator==(const const_iterator& o) const noexcept { return ptr_ == o.ptr_; }
-        bool operator!=(const const_iterator& o) const noexcept { return ptr_ != o.ptr_; }
-        bool operator< (const const_iterator& o) const noexcept { return ptr_ <  o.ptr_; }
-        bool operator<=(const const_iterator& o) const noexcept { return ptr_ <= o.ptr_; }
-        bool operator> (const const_iterator& o) const noexcept { return ptr_ >  o.ptr_; }
-        bool operator>=(const const_iterator& o) const noexcept { return ptr_ >= o.ptr_; }
+        bool operator==(const const_iterator& o) const noexcept { return ptr_ == o.ptr_; } ///< Equality.
+        bool operator!=(const const_iterator& o) const noexcept { return ptr_ != o.ptr_; } ///< Inequality.
+        bool operator< (const const_iterator& o) const noexcept { return ptr_ <  o.ptr_; } ///< Less-than.
+        bool operator<=(const const_iterator& o) const noexcept { return ptr_ <= o.ptr_; } ///< Less-or-equal.
+        bool operator> (const const_iterator& o) const noexcept { return ptr_ >  o.ptr_; } ///< Greater-than.
+        bool operator>=(const const_iterator& o) const noexcept { return ptr_ >= o.ptr_; } ///< Greater-or-equal.
 
+        /// Returns the underlying raw pointer.
         const T* base() const noexcept { return ptr_; }
     private:
         const T* ptr_;
     };
 
-    using reverse_iterator       = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator       = std::reverse_iterator<iterator>;       ///< Reverse mutable iterator.
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>; ///< Reverse read-only iterator.
 
     // ── Private helpers ───────────────────────────────────────────────────────
 private:
-    T*        data_;
-    size_type size_;
-    size_type capacity_;
+    T*        data_;      ///< Pointer to raw storage.
+    size_type size_;      ///< Number of live elements.
+    size_type capacity_;  ///< Allocated slots.
 
     static T* mem_alloc(size_type n) {
         return static_cast<T*>(::operator new(n * sizeof(T)));
@@ -170,20 +196,15 @@ private:
         return capacity_ == 0 ? 1 : capacity_ * 2;
     }
 
-    // Build a fresh buffer with all existing elements + n slots inserted at idx.
-    // Used by multi-element insert variants to keep the logic simple and correct.
     template <typename F>
     iterator insert_impl(size_type idx, size_type n, F&& fill) {
         if (n == 0) return iterator(data_ + idx);
         Vector tmp;
         tmp.data_     = mem_alloc(size_ + n);
         tmp.capacity_ = size_ + n;
-        // Move [0, idx) into tmp
         for (size_type i = 0; i < idx; ++i)
             new(tmp.data_ + tmp.size_++) T(std::move(data_[i]));
-        // Fill n new elements
         fill(tmp);
-        // Move [idx, size_) into tmp
         for (size_type i = idx; i < size_; ++i)
             new(tmp.data_ + tmp.size_++) T(std::move(data_[i]));
         swap(tmp);
@@ -193,10 +214,19 @@ private:
 public:
     // ── Constructors ──────────────────────────────────────────────────────────
 
-    /// Default constructor — empty vector, no allocation.
+    /**
+     * @brief Default constructor.
+     *
+     * Creates an empty vector with no heap allocation.
+     */
     Vector() noexcept : data_(nullptr), size_(0), capacity_(0) {}
 
-    /// Constructs a vector with @p n value-initialised elements.
+    /**
+     * @brief Value-initialisation constructor.
+     * @param n Number of elements to create.
+     *
+     * Each element is value-initialised (zero for scalar types).
+     */
     explicit Vector(size_type n) : data_(nullptr), size_(0), capacity_(0) {
         if (n == 0) return;
         data_     = mem_alloc(n);
@@ -205,7 +235,11 @@ public:
             new(data_ + size_) T();
     }
 
-    /// Constructs a vector with @p n copies of @p val.
+    /**
+     * @brief Fill constructor.
+     * @param n   Number of elements.
+     * @param val Value to copy into every element.
+     */
     Vector(size_type n, const T& val) : data_(nullptr), size_(0), capacity_(0) {
         if (n == 0) return;
         data_     = mem_alloc(n);
@@ -214,7 +248,14 @@ public:
             new(data_ + size_) T(val);
     }
 
-    /// Range constructor — copies elements from [@p first, @p last).
+    /**
+     * @brief Range constructor.
+     * @tparam InputIt Iterator type (must not be integral).
+     * @param first Iterator to the first element of the source range.
+     * @param last  Past-the-end iterator of the source range.
+     *
+     * Copies all elements from [@p first, @p last) into the new vector.
+     */
     template <typename InputIt,
               typename = typename std::enable_if<
                   !std::is_integral<InputIt>::value>::type>
@@ -223,14 +264,20 @@ public:
             push_back(*it);
     }
 
-    /// Initialiser-list constructor.
+    /**
+     * @brief Initialiser-list constructor.
+     * @param il Brace-enclosed element list.
+     */
     Vector(std::initializer_list<T> il) : data_(nullptr), size_(0), capacity_(0) {
         reserve(il.size());
         for (const auto& v : il)
             new(data_ + size_++) T(v);
     }
 
-    /// Copy constructor.
+    /**
+     * @brief Copy constructor.
+     * @param o Source vector.  @p o is unchanged.
+     */
     Vector(const Vector& o) : data_(nullptr), size_(0), capacity_(0) {
         if (o.size_ == 0) return;
         data_     = mem_alloc(o.size_);
@@ -239,13 +286,20 @@ public:
             new(data_ + size_) T(o.data_[size_]);
     }
 
-    /// Move constructor — takes ownership, leaves @p o empty.
+    /**
+     * @brief Move constructor.
+     * @param o Source vector.  Left in a valid empty state after the move.
+     */
     Vector(Vector&& o) noexcept
         : data_(o.data_), size_(o.size_), capacity_(o.capacity_) {
         o.data_ = nullptr; o.size_ = 0; o.capacity_ = 0;
     }
 
-    /// Destructor.
+    /**
+     * @brief Destructor.
+     *
+     * Destroys all live elements and releases heap memory.
+     */
     ~Vector() {
         destroy_range(0, size_);
         mem_free(data_);
@@ -253,13 +307,23 @@ public:
 
     // ── Assignment ────────────────────────────────────────────────────────────
 
-    /// Copy assignment.
+    /**
+     * @brief Copy assignment.
+     * @param o Source vector.
+     * @return Reference to @c *this.
+     *
+     * Implemented via copy-and-swap to provide strong exception safety.
+     */
     Vector& operator=(const Vector& o) {
         if (this != &o) { Vector tmp(o); swap(tmp); }
         return *this;
     }
 
-    /// Move assignment.
+    /**
+     * @brief Move assignment.
+     * @param o Source vector.  Left empty after the move.
+     * @return Reference to @c *this.
+     */
     Vector& operator=(Vector&& o) noexcept {
         if (this != &o) {
             destroy_range(0, size_);
@@ -270,12 +334,20 @@ public:
         return *this;
     }
 
-    /// Initialiser-list assignment.
+    /**
+     * @brief Initialiser-list assignment.
+     * @param il New element list.
+     * @return Reference to @c *this.
+     */
     Vector& operator=(std::initializer_list<T> il) {
         assign(il); return *this;
     }
 
-    /// Replaces contents with @p n copies of @p val.
+    /**
+     * @brief Replaces contents with @p n copies of @p val.
+     * @param n   New element count.
+     * @param val Value to fill with.
+     */
     void assign(size_type n, const T& val) {
         clear();
         reserve(n);
@@ -283,7 +355,12 @@ public:
             new(data_ + size_++) T(val);
     }
 
-    /// Replaces contents with the range [@p first, @p last).
+    /**
+     * @brief Replaces contents with the range [@p first, @p last).
+     * @tparam InputIt Iterator type.
+     * @param first Beginning of source range.
+     * @param last  End of source range.
+     */
     template <typename InputIt,
               typename = typename std::enable_if<
                   !std::is_integral<InputIt>::value>::type>
@@ -293,7 +370,10 @@ public:
             push_back(*it);
     }
 
-    /// Replaces contents with initialiser list.
+    /**
+     * @brief Replaces contents with an initialiser list.
+     * @param il New element list.
+     */
     void assign(std::initializer_list<T> il) {
         clear();
         reserve(il.size());
@@ -303,58 +383,115 @@ public:
 
     // ── Element access ────────────────────────────────────────────────────────
 
-    /// Bounds-checked element access; throws std::out_of_range.
+    /**
+     * @brief Bounds-checked element access.
+     * @param pos Zero-based index.
+     * @return Mutable reference to the element.
+     * @throws std::out_of_range if @p pos >= size().
+     */
     reference at(size_type pos) {
         if (pos >= size_) throw std::out_of_range("Vector::at");
         return data_[pos];
     }
+
+    /**
+     * @brief Bounds-checked element access (const overload).
+     * @param pos Zero-based index.
+     * @return Immutable reference to the element.
+     * @throws std::out_of_range if @p pos >= size().
+     */
     const_reference at(size_type pos) const {
         if (pos >= size_) throw std::out_of_range("Vector::at");
         return data_[pos];
     }
 
+    /**
+     * @brief Unchecked element access.
+     * @param pos Zero-based index.  Behaviour is undefined if out of range.
+     * @return Mutable reference to the element.
+     */
     reference       operator[](size_type pos)       noexcept { return data_[pos]; }
+
+    /**
+     * @brief Unchecked element access (const overload).
+     * @param pos Zero-based index.
+     * @return Immutable reference to the element.
+     */
     const_reference operator[](size_type pos) const noexcept { return data_[pos]; }
 
+    /**
+     * @brief Access the first element.
+     * @return Mutable reference.  Undefined if empty.
+     */
     reference       front()       noexcept { return data_[0]; }
+    /** @brief Access the first element (const overload). */
     const_reference front() const noexcept { return data_[0]; }
+
+    /**
+     * @brief Access the last element.
+     * @return Mutable reference.  Undefined if empty.
+     */
     reference       back()        noexcept { return data_[size_ - 1]; }
+    /** @brief Access the last element (const overload). */
     const_reference back()  const noexcept { return data_[size_ - 1]; }
 
+    /**
+     * @brief Direct access to the underlying contiguous storage.
+     * @return Pointer to the first element, or @c nullptr if empty.
+     */
     T*       data()       noexcept { return data_; }
+    /** @brief Direct access to the underlying storage (const overload). */
     const T* data() const noexcept { return data_; }
 
     // ── Iterators ─────────────────────────────────────────────────────────────
 
-    iterator       begin()        noexcept { return iterator(data_); }
-    iterator       end()          noexcept { return iterator(data_ + size_); }
-    const_iterator begin()  const noexcept { return const_iterator(data_); }
-    const_iterator end()    const noexcept { return const_iterator(data_ + size_); }
-    const_iterator cbegin() const noexcept { return const_iterator(data_); }
-    const_iterator cend()   const noexcept { return const_iterator(data_ + size_); }
+    iterator       begin()        noexcept { return iterator(data_); }             ///< Iterator to first element.
+    iterator       end()          noexcept { return iterator(data_ + size_); }     ///< Past-the-end iterator.
+    const_iterator begin()  const noexcept { return const_iterator(data_); }       ///< Const iterator to first element.
+    const_iterator end()    const noexcept { return const_iterator(data_ + size_); }///< Const past-the-end iterator.
+    const_iterator cbegin() const noexcept { return const_iterator(data_); }       ///< Explicit const iterator to first element.
+    const_iterator cend()   const noexcept { return const_iterator(data_ + size_); }///< Explicit const past-the-end iterator.
 
-    reverse_iterator       rbegin()        noexcept { return reverse_iterator(end()); }
-    reverse_iterator       rend()          noexcept { return reverse_iterator(begin()); }
-    const_reverse_iterator rbegin()  const noexcept { return const_reverse_iterator(end()); }
-    const_reverse_iterator rend()    const noexcept { return const_reverse_iterator(begin()); }
-    const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(cend()); }
-    const_reverse_iterator crend()   const noexcept { return const_reverse_iterator(cbegin()); }
+    reverse_iterator       rbegin()        noexcept { return reverse_iterator(end()); }             ///< Reverse iterator to last element.
+    reverse_iterator       rend()          noexcept { return reverse_iterator(begin()); }           ///< Reverse past-the-end iterator.
+    const_reverse_iterator rbegin()  const noexcept { return const_reverse_iterator(end()); }      ///< Const reverse iterator to last element.
+    const_reverse_iterator rend()    const noexcept { return const_reverse_iterator(begin()); }    ///< Const reverse past-the-end iterator.
+    const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(cend()); }     ///< Explicit const reverse iterator.
+    const_reverse_iterator crend()   const noexcept { return const_reverse_iterator(cbegin()); }   ///< Explicit const reverse past-the-end.
 
     // ── Capacity ──────────────────────────────────────────────────────────────
 
+    /// @brief Returns @c true if the vector contains no elements.
     bool      empty()    const noexcept { return size_ == 0; }
+
+    /// @brief Returns the number of live elements.
     size_type size()     const noexcept { return size_; }
+
+    /// @brief Returns the theoretical maximum number of elements.
     size_type max_size() const noexcept {
         return std::numeric_limits<size_type>::max() / sizeof(T);
     }
+
+    /// @brief Returns the number of elements that fit in the current allocation.
     size_type capacity() const noexcept { return capacity_; }
 
-    /// Increases capacity to at least @p new_cap. No-op if already sufficient.
+    /**
+     * @brief Ensures capacity is at least @p new_cap.
+     * @param new_cap Minimum required capacity.
+     *
+     * No-op if current capacity already satisfies the requirement.
+     * Invalidates iterators if a reallocation occurs.
+     */
     void reserve(size_type new_cap) {
         if (new_cap > capacity_) reallocate(new_cap);
     }
 
-    /// Reduces capacity to match size (non-binding hint per standard).
+    /**
+     * @brief Requests that capacity be reduced to match size.
+     *
+     * This is a non-binding hint per the standard; this implementation
+     * always honours it.  Frees the buffer entirely when empty.
+     */
     void shrink_to_fit() {
         if (size_ == capacity_) return;
         if (size_ == 0) {
@@ -365,25 +502,42 @@ public:
 
     // ── Modifiers ─────────────────────────────────────────────────────────────
 
-    /// Destroys all elements; capacity unchanged.
+    /**
+     * @brief Destroys all elements.
+     *
+     * Sets size to zero; capacity and the allocated buffer are retained.
+     */
     void clear() noexcept {
         destroy_range(0, size_);
         size_ = 0;
     }
 
-    /// Appends a copy of @p val; reallocates if capacity is exhausted.
+    /**
+     * @brief Appends a copy of @p val to the end.
+     * @param val Value to copy.
+     *
+     * Reallocates (doubling capacity) if the buffer is full.
+     */
     void push_back(const T& val) {
         if (size_ == capacity_) reallocate(next_cap());
         new(data_ + size_++) T(val);
     }
 
-    /// Appends @p val by move; reallocates if capacity is exhausted.
+    /**
+     * @brief Appends @p val to the end by move.
+     * @param val Value to move from.
+     */
     void push_back(T&& val) {
         if (size_ == capacity_) reallocate(next_cap());
         new(data_ + size_++) T(std::move(val));
     }
 
-    /// In-place constructs an element at the end.
+    /**
+     * @brief Constructs an element in-place at the end.
+     * @tparam Args Constructor argument types.
+     * @param args Arguments forwarded to T's constructor.
+     * @return Reference to the newly constructed element.
+     */
     template <typename... Args>
     reference emplace_back(Args&&... args) {
         if (size_ == capacity_) reallocate(next_cap());
@@ -391,10 +545,20 @@ public:
         return data_[size_++];
     }
 
-    /// Removes the last element; undefined if empty.
+    /**
+     * @brief Removes the last element.
+     *
+     * Undefined behaviour if the vector is empty.
+     */
     void pop_back() noexcept { data_[--size_].~T(); }
 
-    /// Resizes to @p n elements, value-initialising any new ones.
+    /**
+     * @brief Resizes the vector to @p n elements.
+     * @param n Target size.
+     *
+     * If @p n < size(), the excess elements are destroyed.
+     * If @p n > size(), new elements are value-initialised.
+     */
     void resize(size_type n) {
         if (n < size_) { destroy_range(n, size_); size_ = n; }
         else if (n > size_) {
@@ -403,7 +567,11 @@ public:
         }
     }
 
-    /// Resizes to @p n elements, filling new slots with @p val.
+    /**
+     * @brief Resizes the vector to @p n elements, filling new slots with @p val.
+     * @param n   Target size.
+     * @param val Value assigned to any new elements.
+     */
     void resize(size_type n, const T& val) {
         if (n < size_) { destroy_range(n, size_); size_ = n; }
         else if (n > size_) {
@@ -412,7 +580,12 @@ public:
         }
     }
 
-    /// Swaps contents with @p o in O(1).
+    /**
+     * @brief Exchanges contents with @p o in O(1).
+     * @param o Vector to swap with.
+     *
+     * Iterators remain valid but now refer to the other container.
+     */
     void swap(Vector& o) noexcept {
         std::swap(data_,     o.data_);
         std::swap(size_,     o.size_);
@@ -421,7 +594,12 @@ public:
 
     // ── insert ────────────────────────────────────────────────────────────────
 
-    /// Inserts a copy of @p val before @p pos.
+    /**
+     * @brief Inserts a copy of @p val before @p pos.
+     * @param pos Iterator before which to insert.
+     * @param val Value to insert.
+     * @return Iterator to the inserted element.
+     */
     iterator insert(const_iterator pos, const T& val) {
         size_type idx = static_cast<size_type>(pos.base() - data_);
         if (size_ == capacity_) reallocate(next_cap());
@@ -437,7 +615,12 @@ public:
         return iterator(data_ + idx);
     }
 
-    /// Inserts @p val (by move) before @p pos.
+    /**
+     * @brief Inserts @p val (by move) before @p pos.
+     * @param pos Iterator before which to insert.
+     * @param val Value to move from.
+     * @return Iterator to the inserted element.
+     */
     iterator insert(const_iterator pos, T&& val) {
         size_type idx = static_cast<size_type>(pos.base() - data_);
         if (size_ == capacity_) reallocate(next_cap());
@@ -453,7 +636,13 @@ public:
         return iterator(data_ + idx);
     }
 
-    /// Inserts @p n copies of @p val before @p pos.
+    /**
+     * @brief Inserts @p n copies of @p val before @p pos.
+     * @param pos Iterator before which to insert.
+     * @param n   Number of copies.
+     * @param val Value to copy.
+     * @return Iterator to the first inserted element, or @p pos if n == 0.
+     */
     iterator insert(const_iterator pos, size_type n, const T& val) {
         size_type idx = static_cast<size_type>(pos.base() - data_);
         return insert_impl(idx, n, [&](Vector& tmp) {
@@ -462,7 +651,14 @@ public:
         });
     }
 
-    /// Inserts elements from range [@p first, @p last) before @p pos.
+    /**
+     * @brief Inserts elements from range [@p first, @p last) before @p pos.
+     * @tparam InputIt Source iterator type.
+     * @param pos   Iterator before which to insert.
+     * @param first Beginning of the source range.
+     * @param last  End of the source range.
+     * @return Iterator to the first inserted element.
+     */
     template <typename InputIt,
               typename = typename std::enable_if<
                   !std::is_integral<InputIt>::value>::type>
@@ -476,12 +672,23 @@ public:
         });
     }
 
-    /// Inserts elements from initialiser list before @p pos.
+    /**
+     * @brief Inserts elements from an initialiser list before @p pos.
+     * @param pos Iterator before which to insert.
+     * @param il  Elements to insert.
+     * @return Iterator to the first inserted element.
+     */
     iterator insert(const_iterator pos, std::initializer_list<T> il) {
         return insert(pos, il.begin(), il.end());
     }
 
-    /// In-place constructs an element before @p pos.
+    /**
+     * @brief Constructs an element in-place before @p pos.
+     * @tparam Args Constructor argument types.
+     * @param pos  Iterator before which to emplace.
+     * @param args Arguments forwarded to T's constructor.
+     * @return Iterator to the emplaced element.
+     */
     template <typename... Args>
     iterator emplace(const_iterator pos, Args&&... args) {
         T val(std::forward<Args>(args)...);
@@ -490,7 +697,11 @@ public:
 
     // ── erase ─────────────────────────────────────────────────────────────────
 
-    /// Removes the element at @p pos.
+    /**
+     * @brief Removes the element at @p pos.
+     * @param pos Iterator to the element to remove.
+     * @return Iterator to the element that followed @p pos, or end().
+     */
     iterator erase(const_iterator pos) {
         size_type idx = static_cast<size_type>(pos.base() - data_);
         for (size_type i = idx + 1; i < size_; ++i)
@@ -499,13 +710,17 @@ public:
         return iterator(data_ + idx);
     }
 
-    /// Removes elements in [@p first, @p last).
+    /**
+     * @brief Removes elements in the range [@p first, @p last).
+     * @param first Iterator to the first element to remove.
+     * @param last  Past-the-end iterator of the range to remove.
+     * @return Iterator to the element that followed the last removed element.
+     */
     iterator erase(const_iterator first, const_iterator last) {
         size_type f = static_cast<size_type>(first.base() - data_);
         size_type l = static_cast<size_type>(last.base()  - data_);
         size_type n = l - f;
         if (n == 0) return iterator(data_ + f);
-        // Move remaining elements left
         for (size_type i = l; i < size_; ++i)
             data_[i - n] = std::move(data_[i]);
         destroy_range(size_ - n, size_);
@@ -516,6 +731,11 @@ public:
 
 // ── Non-member functions ───────────────────────────────────────────────────────
 
+/**
+ * @relates Vector
+ * @brief Lexicographic equality comparison.
+ * @return @c true if both vectors have the same size and all elements compare equal.
+ */
 template <typename T>
 bool operator==(const Vector<T>& a, const Vector<T>& b) {
     if (a.size() != b.size()) return false;
@@ -524,23 +744,35 @@ bool operator==(const Vector<T>& a, const Vector<T>& b) {
     return true;
 }
 
+/** @relates Vector @brief Inequality — negation of operator==. */
 template <typename T>
 bool operator!=(const Vector<T>& a, const Vector<T>& b) { return !(a == b); }
 
+/**
+ * @relates Vector
+ * @brief Lexicographic less-than comparison.
+ */
 template <typename T>
 bool operator<(const Vector<T>& a, const Vector<T>& b) {
     return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
 }
 
+/** @relates Vector @brief Lexicographic less-than-or-equal. */
 template <typename T>
 bool operator<=(const Vector<T>& a, const Vector<T>& b) { return !(b < a); }
 
+/** @relates Vector @brief Lexicographic greater-than. */
 template <typename T>
 bool operator>(const Vector<T>& a, const Vector<T>& b) { return b < a; }
 
+/** @relates Vector @brief Lexicographic greater-than-or-equal. */
 template <typename T>
 bool operator>=(const Vector<T>& a, const Vector<T>& b) { return !(a < b); }
 
+/**
+ * @relates Vector
+ * @brief Specialisation of std::swap for Vector — calls a.swap(b).
+ */
 template <typename T>
 void swap(Vector<T>& a, Vector<T>& b) noexcept { a.swap(b); }
 
