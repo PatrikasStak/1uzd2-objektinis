@@ -19,7 +19,7 @@
  */
 class Studentas : public Zmogus {
 private:
-    std::vector<int> nd_;        ///< Namų darbų pažymiai
+    Vector<int> nd_;             ///< Namų darbų pažymiai
     int egz_;                    ///< Egzamino balas
     double galutinis_vid_;       ///< Galutinis balas (vidurkio metodas)
     double galutinis_med_;       ///< Galutinis balas (medianos metodas)
@@ -80,7 +80,7 @@ public:
      * @brief Grąžina namų darbų pažymių sąrašą.
      * @return Const nuoroda į pažymių vektorių
      */
-    inline const std::vector<int>& nd() const { return nd_; }
+    inline const Vector<int>& nd() const { return nd_; }
 
     /**
      * @brief Grąžina egzamino balą.

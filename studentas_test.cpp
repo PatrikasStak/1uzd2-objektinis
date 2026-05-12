@@ -76,7 +76,7 @@ TEST_CASE("Perkėlimo konstruktorius", "[rule_of_five]") {
     Studentas original = makeStudent();
     const std::string vardas  = original.vardas();
     const std::string pavarde = original.pavarde();
-    const std::vector<int> nd = original.nd();
+    const Vector<int> nd = original.nd();
     const int egz             = original.egz();
     const double galVid       = original.galutinisVid();
     const double galMed       = original.galutinisMed();
@@ -95,7 +95,7 @@ TEST_CASE("Perkėlimo priskyrimo operatorius", "[rule_of_five]") {
     Studentas original = makeStudent();
     const std::string vardas  = original.vardas();
     const std::string pavarde = original.pavarde();
-    const std::vector<int> nd = original.nd();
+    const Vector<int> nd = original.nd();
     const int egz             = original.egz();
     const double galVid       = original.galutinisVid();
     const double galMed       = original.galutinisMed();
@@ -128,7 +128,7 @@ TEST_CASE("operator>> skaito studento duomenis", "[operators]") {
     REQUIRE((input.good() || input.eof()));
     REQUIRE(s.vardas()  == "Ona");
     REQUIRE(s.pavarde() == "Onute");
-    REQUIRE(s.nd() == std::vector<int>{7, 8, 9});
+    REQUIRE(s.nd() == Vector<int>{7, 8, 9});
     REQUIRE(s.egz() == 10);
     REQUIRE(almostEqual(s.galutinisVid(), 9.2));
     REQUIRE(almostEqual(s.galutinisMed(), 9.2));
