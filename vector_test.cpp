@@ -224,3 +224,122 @@ TEST_CASE("at() and operator[] agree", "[element_access]") {
     for (std::size_t i = 0; i < v.size(); ++i)
         REQUIRE(v[i] == v.at(i));
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Iterators
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("begin/end range-for loop", "[iterators]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    int sum = 0;
+    for (int x : v) sum += x;
+    REQUIRE(sum == 15);
+}
+
+TEST_CASE("begin/end manual increment", "[iterators]") {
+    Vector<int> v = {10, 20, 30};
+    auto it = v.begin();
+    REQUIRE(*it == 10);
+    ++it;
+    REQUIRE(*it == 20);
+    it++;
+    REQUIRE(*it == 30);
+    ++it;
+    REQUIRE(it == v.end());
+}
+
+TEST_CASE("iterator write through dereference", "[iterators]") {
+    Vector<int> v = {1, 2, 3};
+    for (auto it = v.begin(); it != v.end(); ++it)
+        *it *= 2;
+    REQUIRE(v[0] == 2);
+    REQUIRE(v[1] == 4);
+    REQUIRE(v[2] == 6);
+}
+
+TEST_CASE("cbegin/cend on non-const vector", "[iterators]") {
+    Vector<int> v = {5, 6, 7};
+    int sum = 0;
+    for (auto it = v.cbegin(); it != v.cend(); ++it)
+        sum += *it;
+    REQUIRE(sum == 18);
+}
+
+TEST_CASE("begin/end on const vector yields const_iterator", "[iterators]") {
+    const Vector<int> v = {1, 2, 3};
+    int sum = 0;
+    for (auto it = v.begin(); it != v.end(); ++it)
+        sum += *it;
+    REQUIRE(sum == 6);
+}
+
+TEST_CASE("iterator arithmetic: + and -", "[iterators]") {
+    Vector<int> v = {10, 20, 30, 40, 50};
+    auto it = v.begin();
+    REQUIRE(*(it + 2) == 30);
+    REQUIRE(*(it + 4) == 50);
+    auto it2 = v.end();
+    REQUIRE(*(it2 - 1) == 50);
+    REQUIRE(*(it2 - 3) == 30);
+}
+
+TEST_CASE("iterator difference", "[iterators]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    REQUIRE(v.end() - v.begin() == 5);
+    REQUIRE(v.begin() - v.begin() == 0);
+}
+
+TEST_CASE("iterator operator[]", "[iterators]") {
+    Vector<int> v = {10, 20, 30};
+    auto it = v.begin();
+    REQUIRE(it[0] == 10);
+    REQUIRE(it[1] == 20);
+    REQUIRE(it[2] == 30);
+}
+
+TEST_CASE("iterator comparisons", "[iterators]") {
+    Vector<int> v = {1, 2, 3};
+    REQUIRE(v.begin() <  v.end());
+    REQUIRE(v.begin() <= v.begin());
+    REQUIRE(v.end()   >  v.begin());
+    REQUIRE(v.end()   >= v.end());
+    REQUIRE(v.begin() != v.end());
+    REQUIRE(v.begin() == v.begin());
+}
+
+TEST_CASE("rbegin/rend traverses in reverse", "[iterators]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    std::vector<int> reversed;
+    for (auto it = v.rbegin(); it != v.rend(); ++it)
+        reversed.push_back(*it);
+    REQUIRE(reversed[0] == 5);
+    REQUIRE(reversed[4] == 1);
+}
+
+TEST_CASE("crbegin/crend on const vector", "[iterators]") {
+    const Vector<int> v = {10, 20, 30};
+    auto it = v.crbegin();
+    REQUIRE(*it == 30);
+    ++it;
+    REQUIRE(*it == 20);
+}
+
+TEST_CASE("std::sort works via random-access iterators", "[iterators]") {
+    Vector<int> v = {5, 3, 1, 4, 2};
+    std::sort(v.begin(), v.end());
+    for (int i = 0; i < 5; ++i)
+        REQUIRE(v[i] == i + 1);
+}
+
+TEST_CASE("std::accumulate works via iterators", "[iterators]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    int total = std::accumulate(v.begin(), v.end(), 0);
+    REQUIRE(total == 15);
+}
+
+TEST_CASE("empty vector begin equals end", "[iterators]") {
+    Vector<int> v;
+    REQUIRE(v.begin()  == v.end());
+    REQUIRE(v.cbegin() == v.cend());
+    REQUIRE(v.rbegin() == v.rend());
+}
