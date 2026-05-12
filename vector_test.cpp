@@ -145,3 +145,82 @@ TEST_CASE("assign(initialiser_list)", "[assignment]") {
     REQUIRE(v.size() == 4);
     REQUIRE(v[3] == 40);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Element access
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("operator[] read and write", "[element_access]") {
+    Vector<int> v = {10, 20, 30};
+    REQUIRE(v[0] == 10);
+    REQUIRE(v[2] == 30);
+    v[1] = 99;
+    REQUIRE(v[1] == 99);
+}
+
+TEST_CASE("operator[] on const vector", "[element_access]") {
+    const Vector<int> v = {1, 2, 3};
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("at() returns correct element", "[element_access]") {
+    Vector<int> v = {5, 6, 7};
+    REQUIRE(v.at(0) == 5);
+    REQUIRE(v.at(2) == 7);
+    v.at(1) = 42;
+    REQUIRE(v.at(1) == 42);
+}
+
+TEST_CASE("at() throws on out-of-range", "[element_access]") {
+    Vector<int> v = {1, 2, 3};
+    REQUIRE_THROWS_AS(v.at(3),  std::out_of_range);
+    REQUIRE_THROWS_AS(v.at(99), std::out_of_range);
+}
+
+TEST_CASE("at() throws on empty vector", "[element_access]") {
+    Vector<int> v;
+    REQUIRE_THROWS_AS(v.at(0), std::out_of_range);
+}
+
+TEST_CASE("front() and back()", "[element_access]") {
+    Vector<int> v = {10, 20, 30};
+    REQUIRE(v.front() == 10);
+    REQUIRE(v.back()  == 30);
+    v.front() = 1;
+    v.back()  = 3;
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("front() and back() on const vector", "[element_access]") {
+    const Vector<int> v = {7, 8, 9};
+    REQUIRE(v.front() == 7);
+    REQUIRE(v.back()  == 9);
+}
+
+TEST_CASE("front() == back() on single-element vector", "[element_access]") {
+    Vector<int> v = {42};
+    REQUIRE(v.front() == v.back());
+}
+
+TEST_CASE("data() returns pointer to first element", "[element_access]") {
+    Vector<int> v = {1, 2, 3};
+    int* p = v.data();
+    REQUIRE(p[0] == 1);
+    REQUIRE(p[2] == 3);
+    p[0] = 99;
+    REQUIRE(v[0] == 99);
+}
+
+TEST_CASE("data() on const vector", "[element_access]") {
+    const Vector<int> v = {4, 5, 6};
+    const int* p = v.data();
+    REQUIRE(p[1] == 5);
+}
+
+TEST_CASE("at() and operator[] agree", "[element_access]") {
+    Vector<int> v = {3, 1, 4, 1, 5};
+    for (std::size_t i = 0; i < v.size(); ++i)
+        REQUIRE(v[i] == v.at(i));
+}
