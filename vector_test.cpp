@@ -343,3 +343,109 @@ TEST_CASE("empty vector begin equals end", "[iterators]") {
     REQUIRE(v.cbegin() == v.cend());
     REQUIRE(v.rbegin() == v.rend());
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Capacity
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("empty() reflects vector state", "[capacity]") {
+    Vector<int> v;
+    REQUIRE(v.empty());
+    v.push_back(1);
+    REQUIRE(!v.empty());
+    v.pop_back();
+    REQUIRE(v.empty());
+}
+
+TEST_CASE("size() tracks element count", "[capacity]") {
+    Vector<int> v;
+    REQUIRE(v.size() == 0);
+    for (int i = 0; i < 5; ++i) {
+        v.push_back(i);
+        REQUIRE(v.size() == static_cast<std::size_t>(i + 1));
+    }
+}
+
+TEST_CASE("capacity() grows on push_back", "[capacity]") {
+    Vector<int> v;
+    REQUIRE(v.capacity() == 0);
+    v.push_back(1);
+    REQUIRE(v.capacity() >= 1);
+    std::size_t prev = v.capacity();
+    // Fill to capacity then add one more to force reallocation
+    while (v.size() < prev) v.push_back(0);
+    v.push_back(0);
+    REQUIRE(v.capacity() > prev);
+}
+
+TEST_CASE("capacity() doubles on reallocation", "[capacity]") {
+    Vector<int> v;
+    v.push_back(1); // cap = 1
+    std::size_t c1 = v.capacity();
+    v.push_back(2); // triggers realloc → cap = 2
+    std::size_t c2 = v.capacity();
+    v.push_back(3); v.push_back(4); // triggers realloc → cap = 4
+    std::size_t c4 = v.capacity();
+    REQUIRE(c2 == c1 * 2);
+    REQUIRE(c4 == c2 * 2);
+}
+
+TEST_CASE("reserve() increases capacity without changing size", "[capacity]") {
+    Vector<int> v = {1, 2, 3};
+    v.reserve(100);
+    REQUIRE(v.size()     == 3);
+    REQUIRE(v.capacity() >= 100);
+    // Elements still intact
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[2] == 3);
+}
+
+TEST_CASE("reserve() is a no-op when capacity already sufficient", "[capacity]") {
+    Vector<int> v;
+    v.reserve(50);
+    std::size_t cap = v.capacity();
+    v.reserve(10);
+    REQUIRE(v.capacity() == cap);
+}
+
+TEST_CASE("reserve() preserves elements after reallocation", "[capacity]") {
+    Vector<int> v = {10, 20, 30, 40, 50};
+    v.reserve(1000);
+    for (int i = 0; i < 5; ++i)
+        REQUIRE(v[i] == (i + 1) * 10);
+}
+
+TEST_CASE("shrink_to_fit() reduces capacity to size", "[capacity]") {
+    Vector<int> v;
+    v.reserve(100);
+    v.push_back(1);
+    v.push_back(2);
+    v.shrink_to_fit();
+    REQUIRE(v.capacity() == v.size());
+    REQUIRE(v.size() == 2);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 2);
+}
+
+TEST_CASE("shrink_to_fit() on empty vector frees memory", "[capacity]") {
+    Vector<int> v;
+    v.reserve(50);
+    v.shrink_to_fit();
+    REQUIRE(v.capacity() == 0);
+    REQUIRE(v.data()     == nullptr);
+}
+
+TEST_CASE("max_size() is large and non-zero", "[capacity]") {
+    Vector<int> v;
+    REQUIRE(v.max_size() > 0);
+    REQUIRE(v.max_size() >= (1u << 20));
+}
+
+TEST_CASE("size and capacity after clear()", "[capacity]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    std::size_t cap = v.capacity();
+    v.clear();
+    REQUIRE(v.size()     == 0);
+    REQUIRE(v.capacity() == cap); // capacity unchanged by clear
+    REQUIRE(v.empty());
+}
