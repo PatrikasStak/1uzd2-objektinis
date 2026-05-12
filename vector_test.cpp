@@ -570,3 +570,131 @@ TEST_CASE("non-member swap works", "[modifiers]") {
     REQUIRE(a.size() == 2);
     REQUIRE(b.size() == 3);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// insert & erase
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_CASE("insert single value at beginning", "[insert_erase]") {
+    Vector<int> v = {2, 3, 4};
+    auto it = v.insert(v.cbegin(), 1);
+    REQUIRE(v.size() == 4);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 2);
+    REQUIRE(*it  == 1);
+}
+
+TEST_CASE("insert single value at end", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3};
+    auto it = v.insert(v.cend(), 4);
+    REQUIRE(v.size() == 4);
+    REQUIRE(v[3] == 4);
+    REQUIRE(*it  == 4);
+}
+
+TEST_CASE("insert single value in the middle", "[insert_erase]") {
+    Vector<int> v = {1, 2, 4, 5};
+    auto it = v.insert(v.cbegin() + 2, 3);
+    REQUIRE(v.size() == 5);
+    REQUIRE(v[2] == 3);
+    REQUIRE(v[3] == 4);
+    REQUIRE(*it  == 3);
+}
+
+TEST_CASE("insert single value by move", "[insert_erase]") {
+    Vector<std::string> v = {"a", "c"};
+    std::string b = "b";
+    v.insert(v.cbegin() + 1, std::move(b));
+    REQUIRE(v.size() == 3);
+    REQUIRE(v[1] == "b");
+    REQUIRE(b.empty());
+}
+
+TEST_CASE("insert n copies in the middle", "[insert_erase]") {
+    Vector<int> v = {1, 5};
+    v.insert(v.cbegin() + 1, 3, 99);
+    REQUIRE(v.size() == 5);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 99);
+    REQUIRE(v[2] == 99);
+    REQUIRE(v[3] == 99);
+    REQUIRE(v[4] == 5);
+}
+
+TEST_CASE("insert n=0 copies is a no-op", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3};
+    v.insert(v.cbegin(), 0, 99);
+    REQUIRE(v.size() == 3);
+}
+
+TEST_CASE("insert range from std::vector", "[insert_erase]") {
+    Vector<int> v = {1, 5};
+    std::vector<int> src = {2, 3, 4};
+    v.insert(v.cbegin() + 1, src.begin(), src.end());
+    REQUIRE(v.size() == 5);
+    for (int i = 0; i < 5; ++i)
+        REQUIRE(v[i] == i + 1);
+}
+
+TEST_CASE("insert initialiser list", "[insert_erase]") {
+    Vector<int> v = {1, 5};
+    v.insert(v.cbegin() + 1, {2, 3, 4});
+    REQUIRE(v.size() == 5);
+    for (int i = 0; i < 5; ++i)
+        REQUIRE(v[i] == i + 1);
+}
+
+TEST_CASE("emplace inserts in place", "[insert_erase]") {
+    Vector<std::pair<int,int>> v = {{1,1}, {3,3}};
+    v.emplace(v.cbegin() + 1, 2, 2);
+    REQUIRE(v.size()      == 3);
+    REQUIRE(v[1].first   == 2);
+    REQUIRE(v[1].second  == 2);
+}
+
+TEST_CASE("erase single element at beginning", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3, 4};
+    auto it = v.erase(v.cbegin());
+    REQUIRE(v.size() == 3);
+    REQUIRE(v[0] == 2);
+    REQUIRE(*it  == 2);
+}
+
+TEST_CASE("erase single element at end", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3};
+    auto it = v.erase(v.cend() - 1);
+    REQUIRE(v.size() == 2);
+    REQUIRE(v.back() == 2);
+    REQUIRE(it == v.end());
+}
+
+TEST_CASE("erase single element in the middle", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    auto it = v.erase(v.cbegin() + 2);
+    REQUIRE(v.size() == 4);
+    REQUIRE(v[2] == 4);
+    REQUIRE(*it  == 4);
+}
+
+TEST_CASE("erase range", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3, 4, 5};
+    auto it = v.erase(v.cbegin() + 1, v.cbegin() + 4);
+    REQUIRE(v.size() == 2);
+    REQUIRE(v[0] == 1);
+    REQUIRE(v[1] == 5);
+    REQUIRE(*it  == 5);
+}
+
+TEST_CASE("erase entire contents via range", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3};
+    auto it = v.erase(v.cbegin(), v.cend());
+    REQUIRE(v.empty());
+    REQUIRE(it == v.end());
+}
+
+TEST_CASE("erase empty range is a no-op", "[insert_erase]") {
+    Vector<int> v = {1, 2, 3};
+    auto it = v.erase(v.cbegin() + 1, v.cbegin() + 1);
+    REQUIRE(v.size() == 3);
+    REQUIRE(*it == 2);
+}
